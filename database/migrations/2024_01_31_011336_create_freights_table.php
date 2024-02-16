@@ -14,14 +14,11 @@ return new class extends Migration
         Schema::create('freights', function (Blueprint $table) {
             $table->id();
             $table->string('weight'); // cân nặng
-            $table->unsignedBigInteger('coaches_id');
-            $table->unsignedBigInteger('user_id');
-            $table->date('departure_time'); //thời gian đi
-            $table->date('arrival_time'); //thời gian tới
+            $table->unsignedBigInteger('phone_number');
+            $table->integer('delivery_charge')->unsigned(); //tiền gửi
+
             $table->timestamps();
-            $table->foreign('coaches_id')->references('id')->on('coaches')->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')
+            $table->foreign('phone_number')->references('phone_number')->on('users')->onDelete('cascade')
                 ->onUpdate('cascade');
         });
     }

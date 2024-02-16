@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('coaches', function (Blueprint $table) {
             $table->id();
             $table->string('license_plate')->unique(); //biển số xe khách
-            $table->string('pickup_point'); //điểm đón
-            $table->string('destination'); //điểm đến
+            $table->boolean('working'); //đang chạy
             $table->Integer('total_tickets')->default(24); //tổng vé xe
             $table->timestamps();
         });

@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('staff', function (Blueprint $table) {
+        Schema::create('staff_managements', function (Blueprint $table) {
             $table->id();
-            $table->string('fullname');
-            $table->Integer('phone_number')->unique();
-            $table->date('birth_date');
+            $table->unsignedBigInteger('staff_id');
             $table->string('position'); //chức vụ
-            $table->boolean('working')->default(0);
-
+            $table->date('days_off'); //ngay nghi
+            $table->string('salary'); //lương
+            $table->DateTime('work_timetable'); //lịch làm việc
             $table->timestamps();
+            $table->foreign('staff_id')->references('id')->on('staff')->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('staff');
+        Schema::dropIfExists('staff_managements');
     }
 };

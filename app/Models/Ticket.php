@@ -9,19 +9,8 @@ class Ticket extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'seat_position',
-        'ticket_price',
-        'arrival_time',
-        'departure_time',
-        'user_id',
-        'coaches_id',
+        'seat_position', //vi tri ngoi
+        'ticket_price', //gia ve
+        'quantity', //so luong
     ];
-    public function coach()
-    {
-        return $this->belongsTo('Coach::class');
-    }
-    public function user()
-    {
-        return $this->belongsTo('User::class');
-    }
 }

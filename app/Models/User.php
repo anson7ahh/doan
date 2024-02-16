@@ -46,12 +46,9 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function Ticket()
+
+    public function Itinerary()
     {
-        return $this->hasOne('Ticket::class');
-    }
-    public function Coach()
-    {
-        return $this->hasOne('Coach::class');
+        return $this->hasOne('Itinerary::class');
     }
 }

@@ -13,17 +13,12 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->string('seat_position'); //vị trí chố ngồi
-
-            $table->Integer('ticket_price'); //giá vé
-            $table->date('departure_time'); //thời gian đi
-            $table->date('arrival_time'); //thời gian tới
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('coaches_id');
+            $table->string('seat_position')->unique(); //vị trí chố ngồi
+            $table->unsignedBigInteger('phone_number');
+            $table->integer('ticket_price')->unsigned(); //giá vé
+            $table->tinyInteger('quantity')->default(1)->change()->unsigned();
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreign('coaches_id')->references('id')->on('coaches')->onDelete('cascade')
+            $table->foreign('phone_number')->references('phone_number')->on('users')->onDelete('cascade')
                 ->onUpdate('cascade');
         });
     }

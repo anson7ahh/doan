@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('staff', function (Blueprint $table) {
+        Schema::create('itineraries', function (Blueprint $table) {
             $table->id();
-            $table->string('fullname');
-            $table->Integer('phone_number')->unique();
-            $table->date('birth_date');
-            $table->string('position'); //chức vụ
-            $table->boolean('working')->default(0);
-
+            $table->string('pickup_point'); //điểm đón
+            $table->string('destination'); //điểm đến
+            $table->DATETIME('departure_time'); //thời gian đi
+            $table->DATETIME('arrival_time'); //thời gian tới
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('staff');
+        Schema::dropIfExists('itineraries');
     }
 };
