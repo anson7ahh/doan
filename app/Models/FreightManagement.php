@@ -5,22 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Staff extends Model
+class FreightManagements extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'fullname',
-        'phone_number',
-        'birth_date',
-
+        'status',
+        'price',
+        'payer',
 
     ];
-    public function StaffManagement()
+    public function Freight()
     {
-        return $this->belongsTo('StaffManagement::class');
+        return $this->hasMany('Freight::class');
     }
     public function ItineraryManagements()
     {
-        return $this->hasMany('ItineraryManagements::class');
+        return $this->hasone('ItineraryManagements::class');
     }
 }

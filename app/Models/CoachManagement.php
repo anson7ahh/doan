@@ -5,19 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Staff extends Model
+class CoachManagements extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'fullname',
-        'phone_number',
-        'birth_date',
 
-
-    ];
-    public function StaffManagement()
+    public function Coach()
     {
-        return $this->belongsTo('StaffManagement::class');
+        return $this->hasMany('Coach::class');
+    }
+    public function TicketsManagement()
+    {
+        return $this->hasMany('TicketsManagement::class');
     }
     public function ItineraryManagements()
     {

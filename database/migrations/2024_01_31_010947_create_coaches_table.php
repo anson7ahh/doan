@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('coaches', function (Blueprint $table) {
             $table->id();
-            $table->string('license_plate')->unique(); //biển số xe khách
-            $table->boolean('working'); //đang chạy
-            $table->Integer('total_tickets')->default(24); //tổng vé xe
+            $table->string('license_plate')->unique()->nullable(); //biển số xe khách
+            $table->date('coach_maintenance_date'); //ngày bảo dưỡng
+            $table->string('service')->comment('CoachServiceEnum')->change(); //dịch vụ
+
             $table->timestamps();
         });
     }

@@ -10,7 +10,10 @@ class Ticket extends Model
     use HasFactory;
     protected $fillable = [
         'seat_position', //vi tri ngoi
-        'ticket_price', //gia ve
         'quantity', //so luong
     ];
+    public function TicketsManagement()
+    {
+        return $this->belongsTo('TicketsManagement::class');
+    }
 }

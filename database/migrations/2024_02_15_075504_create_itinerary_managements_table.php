@@ -12,22 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('itinerary_managements', function (Blueprint $table) {
+
             $table->id();
+            $table->json('price')->nullable(); //giá
+
+
             $table->unsignedBigInteger('itineraries_id');
-            $table->unsignedBigInteger('coaches_id');
-            $table->unsignedBigInteger('tickets_id');
-            $table->unsignedBigInteger('freights_id');
-            $table->unsignedBigInteger('staff_id');
-            $table->foreign('coaches_id')->references('id')->on('coaches')->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreign('tickets_id')->references('id')->on('tickets')->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreign('freights_id')->references('id')->on('freights')->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreign('staff_id')->references('id')->on('staff')->onDelete('cascade')
+            $table->unsignedBigInteger('staff_managements_id');
+
+
+
+
+            $table->foreign('staff_managements_id')->references('id')->on('staff_managements')->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->foreign('itineraries_id')->references('id')->on('itineraries')->onDelete('cascade')
                 ->onUpdate('cascade');
+
+
             $table->timestamps();
         });
     }

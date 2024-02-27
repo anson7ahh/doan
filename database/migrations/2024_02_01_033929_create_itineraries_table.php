@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('itineraries', function (Blueprint $table) {
             $table->id();
-            $table->string('pickup_point'); //điểm đón
-            $table->string('destination'); //điểm đến
-            $table->DATETIME('departure_time'); //thời gian đi
-            $table->DATETIME('arrival_time'); //thời gian tới
+
+            $table->DATETIME('start_time'); //thời gian đi
+            $table->DATETIME('end_time'); //thời gian tới
             $table->timestamps();
         });
     }

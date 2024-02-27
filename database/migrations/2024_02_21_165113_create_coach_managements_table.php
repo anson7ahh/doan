@@ -14,10 +14,15 @@ return new class extends Migration
         Schema::create('coach_managements', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('coaches_id');
-            $table->date('coach_maintenance_date'); //ngày bảo dưỡng xe
-            $table->timestamps();
+            $table->unsignedBigInteger('itinerary_managements_id');
+
+
+            $table->foreign('itinerary_managements_id')->references('id')->on('itinerary_managements')->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->foreign('coaches_id')->references('id')->on('coaches')->onDelete('cascade')
                 ->onUpdate('cascade');
+
+            $table->timestamps();
         });
     }
 
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('coach_managements');
+        Schema::dropIfExists('coaches_managements');
     }
 };

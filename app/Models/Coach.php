@@ -9,24 +9,12 @@ class Coach extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'license_plate',
-        'pickup_point',
-        'destination',
-        'total_tickets',
-        'user_id',
-        'ticket_id',
-        'freights_id',
+        'license_plate', //biển số xe
+        'working',
+        'service'
     ];
-    public function ticket()
+    public function CoachManagements()
     {
-        return $this->hasMany('Ticket::class');
-    }
-    public function freight()
-    {
-        return $this->hasMany('Freight::class');
-    }
-    public function staff()
-    {
-        return $this->hasMany('Staff::class');
+        return $this->belongsto('CoachManagements::class');
     }
 }

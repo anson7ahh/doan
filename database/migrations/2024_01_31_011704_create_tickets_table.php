@@ -13,13 +13,9 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->string('seat_position')->unique(); //vị trí chố ngồi
-            $table->unsignedBigInteger('phone_number');
-            $table->integer('ticket_price')->unsigned(); //giá vé
-            $table->tinyInteger('quantity')->default(1)->change()->unsigned();
+            $table->string('seat_position')->nullable(); //vị trí chố ngồi
+            $table->smallInteger('quantity')->default(1)->unsigned(); // so lượng
             $table->timestamps();
-            $table->foreign('phone_number')->references('phone_number')->on('users')->onDelete('cascade')
-                ->onUpdate('cascade');
         });
     }
 

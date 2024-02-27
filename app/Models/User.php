@@ -47,8 +47,8 @@ class User extends Authenticatable
     ];
 
 
-    public function Itinerary()
+    public function invoice()
     {
-        return $this->hasOne('Itinerary::class');
+        return $this->hasmany('invoice::class');
     }
 }

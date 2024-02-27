@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('staff_managements', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('staff_id');
-            $table->string('position'); //chức vụ
-            $table->date('days_off'); //ngay nghi
-            $table->string('salary'); //lương
             $table->DateTime('work_timetable'); //lịch làm việc
+            $table->string('salary'); //lương
+
+
+            $table->unsignedBigInteger('staffs_id');
+
             $table->timestamps();
-            $table->foreign('staff_id')->references('id')->on('staff')->onDelete('cascade')
+            $table->foreign('staffs_id')->references('id')->on('staffs')->onDelete('cascade')
                 ->onUpdate('cascade');
         });
     }

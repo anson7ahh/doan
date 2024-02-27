@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('staff', function (Blueprint $table) {
+        Schema::create('staffs', function (Blueprint $table) {
             $table->id();
             $table->string('fullname');
+            $table->string('gender')->comment('StaffGenderEnum')->change();
             $table->Integer('phone_number')->unique();
             $table->date('birth_date');
-            $table->string('position'); //chức vụ
-            $table->boolean('working')->default(0);
-
+            $table->string('position')->comment('StaffPositionEnum')->change(); //chức vụ
             $table->timestamps();
         });
     }

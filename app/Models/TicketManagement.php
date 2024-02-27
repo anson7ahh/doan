@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Itinerary extends Model
+class TicketManagement extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'start_time',
-        'end_time',
-
-    ];
+    public function Ticket()
+    {
+        return $this->hasmany('tickets::class');
+    }
     public function ItineraryManagements()
     {
         return $this->belongsTo('ItineraryManagements::class');

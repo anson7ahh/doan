@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Itinerary extends Model
+class StaffManagement extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'start_time',
-        'end_time',
-
+        'work_timetable',
+        'salary',
     ];
-    public function ItineraryManagements()
+    public function Staff()
     {
-        return $this->belongsTo('ItineraryManagements::class');
+        return $this->hasmany('Staff::class');
     }
 }
