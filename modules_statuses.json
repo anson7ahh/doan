@@ -1,0 +1,13 @@
+{
+    "Auth": true,
+    "Blog": true,
+    "CoachManagement": true,
+    "FreghtManagement": true,
+    "Invoice": true,
+    "ItineraryManagement": true,
+    "StaffManagement": true,
+    "TicketManagement": true,
+    "AuthModule": true,
+    "ManagementModule": true,
+    "BookTicketModule": true
+}
