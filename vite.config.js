@@ -7,6 +7,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                // 'Modules/AuthModule/resources/css/register.css'
             ],
             refresh: true,
         }),

@@ -8,6 +8,13 @@
 </head>
 @vite('resources/css/app.css')
 <body>
-    <div class=''>hello</div>
+    <div>
+    <div class='#text-3xl font-bold underline #c2410c columns-xs'>hello</div>
+</div>
+<button class="bg-blue-500 hover:bg-blue-700 text-black font-bold py-2 px-4 rounded">
+    Button
+  </button>
+            
+            
 </body>
 </html>

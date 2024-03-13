@@ -34,18 +34,19 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+
+          
             'name' => 'required|string|max:255',
-            'phone_number' => ['required', 'regex:/^(\+?)([0-9\s]){7,}$/'],
+            'phone_number' => 'required|regex:/(0)[0-9]{9}/|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6', // Rule confirmed để kiểm tra mật khẩu và mật khẩu xác nhận
-
-
+            'password'         => 'required',
+        'password_confirm' => 'required|same:password|min:6' 
+           
         ]);
-
         if ($validator->fails()) {
-            return redirect('register')
-                ->withErrors($validator)
-                ->withInput();
+            return redirect()->back()
+                        ->withErrors($validator->errors())
+                        ->withInput();
         }
         $user = new User();
         $user->name = $request->input('name');
@@ -53,7 +54,8 @@ class RegisterController extends Controller
         $user->email = $request->input('email');
         $user->password = Hash::make($request->password);
         $user->save();
-        return  redirect('/register')->with("succsess", 'thanh cong');
+      
+        return  redirect('/login')->with("succsess", 'thanh cong');
     }
 
     /**
