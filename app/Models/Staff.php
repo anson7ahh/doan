@@ -14,12 +14,14 @@ class Staff extends Model
         'fullname',
         'phone_number',
         'birth_date',
-
+        'position',
+        'gender',
+     
 
     ];
     protected $casts = [
         'gender' => StaffGenderEnum::class,
-        'Position' => StaffPositionEnum::class
+        'position' => StaffPositionEnum::class
     ];
     public function StaffManagement()
     {

@@ -9,5 +9,7 @@
     "TicketManagement": true,
     "AuthModule": true,
     "ManagementModule": true,
-    "BookTicketModule": true
+    "BookTicketModule": true,
+    "UserModule": true,
+    "AdminModule": true
 }

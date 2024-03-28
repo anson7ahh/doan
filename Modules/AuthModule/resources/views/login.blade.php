@@ -2,63 +2,58 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
+@vite('resources/css/app.css')
 
-<body>
-    <div class="min-h-screen py-40" style="background-image: linear-gradient(115deg, #9F7AEA, #FEE2FE)">
-        <div class="container mx-auto">
-            <div
-                class="flex flex-col lg:flex-row w-10/12 lg:w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
-                <div class="w-full lg:w-1/2 flex flex-col items-center justify-center p-12 bg-no-repeat bg-cover bg-center"
-                    style="background-image: url('images/Register-Background.png');">
-                    <h1 class="text-white text-3xl mb-3">Welcome</h1>
-                    <div>
-                        <p class="text-white">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-                            suspendisse aliquam varius rutrum purus maecenas ac <a href="#"
-                                class="text-purple-500 font-semibold">Learn more</a></p>
-                    </div>
+
+
+
+<body class='font-sans text-gray-900 antialiased  '>
+
+    <div class='  min-h-screen  flex flex-col sm:justify-center items-center overflow-hidden '>
+        <div class="  w-full  sm:max-w-md leading-tight focus:outline-none focus:shadow-outline border border-gray-100 ">
+            <form action="{{ route('Register.store') }}" method="post"
+                class="bg-gray-100  shadow-md rounded pt-4 pb-4 mb-4  ">
+                @csrf
+                <h3 class="text-2xl font-semibold mb-4 flex flex-col items-center justify-center">Login</h3>
+                <div class=" px-6 grow-0   ">
+                    <input type="number" placeholder="Phone Number"
+                        class="  border rounded w-full   text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        name="phone_number" value="{{ old('phone_number') }}">
+
+                    @error('name')
+                        <span class=' text-sm text-red-600'>{{ $message }}</span>
+                    @enderror
                 </div>
-                <div class="w-full lg:w-1/2 py-16 px-12">
-                    <h2 class="text-3xl mb-4">Register</h2>
-                    <p class="mb-4">
-                        Create your account. It’s free and only take a minute
-                    </p>
-                    <form action="#">
-                        <div class="grid grid-cols-2 gap-5">
-                            <input type="text" placeholder="Firstname" class="border border-gray-400 py-1 px-2">
-                            <input type="text" placeholder="Surname" class="border border-gray-400 py-1 px-2">
-                        </div>
-                        <div class="mt-5">
-                            <input type="text" placeholder="Email" class="border border-gray-400 py-1 px-2 w-full">
-                        </div>
-                        <div class="mt-5">
-                            <input type="password" placeholder="Password"
-                                class="border border-gray-400 py-1 px-2 w-full">
-                        </div>
-                        <div class="mt-5">
-                            <input type="password" placeholder="Confirm Password"
-                                class="border border-gray-400 py-1 px-2 w-full">
-                        </div>
-                        <div class="mt-5">
-                            <input type="checkbox" class="border border-gray-400">
-                            <span>
-                                I accept the <a href="#" class="text-purple-500 font-semibold">Terms of Use</a> &
-                                <a href="#" class="text-purple-500 font-semibold">Privacy Policy</a>
-                            </span>
-                        </div>
-                        <div class="mt-5">
-                            <button class="w-full bg-purple-500 py-3 text-center text-white">Register Now</button>
-                        </div>
-                    </form>
+
+
+
+                <div class="p-6 grow-0">
+                    <input type="password" placeholder="Password"
+                        class="appearance-none border rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        name ='password' />
+                    @error('password')
+                        <span class='text-sm text-red-600'>{{ $message }}</span>
+                    @enderror
                 </div>
-            </div>
+
+
+                <div class="flex flex-col items-center justify-between">
+                    <button type="submit"
+                        class="font-bold py-2 px-4 rounded focus:outline-none
+                        focus:shadow-outline">Login</button>
+
+                    <button class="pt-1 pb-4 ">Forgot the password</button>
+                </div>
+            </form>
         </div>
+
     </div>
-    <script type="module" src="/main.js"></script>
+
 </body>
 
 </html>

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 
@@ -31,7 +31,7 @@ class RegisterController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request):RedirectResponse
     {
         $validator = Validator::make($request->all(), [
 

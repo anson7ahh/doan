@@ -15,10 +15,10 @@ return new class extends Migration
         Schema::create('staff', function (Blueprint $table) {
             $table->id();
             $table->string('fullname');
-            $table->string('gender')->change();
+            $table->string('gender');
             $table->Integer('phone_number')->unique();
             $table->date('birth_date');
-            $table->string('position')->change(); //chức vụ
+            $table->string('position'); //chức vụ
             $table->timestamps();
         });
     }

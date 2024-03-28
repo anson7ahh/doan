@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('freght_management', function (Blueprint $table) {
             $table->id();
-            $table->string('status')->comment('FreightManagementsStatusEnum')->change();
+            $table->string('status');
             $table->integer('price')->unsigned(); //giá
-            $table->string('payer')->comment('FreightManagementsPayerEnum')->change(); // người trả tiền
+            $table->string('payer'); // người trả tiền
 
             $table->unsignedBigInteger('freghts_id');
             // $table->unsignedBigInteger('itinerary_managements_id');

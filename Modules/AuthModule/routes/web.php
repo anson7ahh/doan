@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\AuthModule\App\Http\Controllers\LoginController;
 use Modules\AuthModule\App\Http\Controllers\RegisterController;
 use Modules\AuthModule\App\Http\Controllers\AuthModuleController;
 
@@ -21,4 +22,8 @@ use Modules\AuthModule\App\Http\Controllers\AuthModuleController;
 Route::prefix('register')->group(function () {
     Route::get('/', [RegisterController::class, 'create'])->name('Register.crate');
     Route::post('/', [RegisterController::class, 'store'])->name('Register.store');
+});
+Route::prefix('login')->group(function () {
+    Route::get('/', [LoginController::class, 'create'])->name('login.crate');
+    Route::post('/', [LoginController::class, 'store'])->name('login.store');
 });
