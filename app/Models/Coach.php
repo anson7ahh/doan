@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\CoachServiceEnum;
+use App\Enums\VehicleTypeCoachEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -15,7 +16,8 @@ class Coach extends Model
 
     ];
     protected $casts = [
-        'service' => CoachServiceEnum::class
+        'service' => CoachServiceEnum::class,
+        'vehicle_type' => VehicleTypeCoachEnum::class,//loai xe
     ];
     public function CoachManagements()
     {

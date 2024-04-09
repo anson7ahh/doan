@@ -12,6 +12,7 @@ class Freght extends Model
     use HasFactory;
     protected $fillable = [
         'weight',
+        'freght_name'
     ];
 
     public function FreightManagement()

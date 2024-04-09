@@ -7,14 +7,14 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class UserModuleController extends Controller
+class PassengerTransportationServiceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('usermodule::Home');
+        return view('usermodule::PassengerTransportationService');
     }
 
     /**

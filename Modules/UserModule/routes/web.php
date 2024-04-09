@@ -1,7 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+use Modules\UserModule\App\Http\Controllers\InvoicesController;
 use Modules\UserModule\App\Http\Controllers\UserModuleController;
+use Modules\UserModule\App\Http\Controllers\FreightTransportationServicesController;
+use Modules\UserModule\App\Http\Controllers\PassengerTransportationServiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +19,20 @@ use Modules\UserModule\App\Http\Controllers\UserModuleController;
 */
 
 Route::group([], function () {
-    Route::resource('/', UserModuleController::class)->names('usermodule');
+    Route::resource('/', UserModuleController::class)->names('usermodule.index');
+   
+});
+
+Route::group([], function () {
+    Route::resource('/Dich-vu-van-tai-hanh-khach', PassengerTransportationServiceController::class)->names('PassengerTransportationService.index');
+
+});
+
+Route::group([], function () {
+    Route::resource('/Dich-vu-van-tai-hang-hoa', FreightTransportationServicesController::class)->names('FreightTransportationServices.index');
+
+});
+Route::group([], function () {
+    Route::resource('/hoa-don', InvoicesController::class)->names('Bill.index');
+
 });

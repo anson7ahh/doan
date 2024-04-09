@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('freghts', function (Blueprint $table) {
             $table->id();
+            $table->string('freght_name');//ten hang hóa
             $table->string('weight'); // cân nặng
             $table->timestamps();
         });

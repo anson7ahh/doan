@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="icon" href="image/logo.png" type="image/gif" sizes="16x16">
+    <title>Tân Minh Hà</title>
 </head>
 @vite('resources/css/app.css')
 
@@ -15,7 +16,8 @@
 <body class='font-sans text-gray-900 antialiased  '>
 
     <div class='min-h-screen  flex flex-col sm:justify-center items-center overflow-hidden '>
-        <div class="  w-full  sm:max-w-md leading-tight focus:outline-none focus:shadow-outline border border-gray-100 ">
+        <div
+            class="  w-full  sm:max-w-md leading-tight focus:outline-none focus:shadow-outline border border-gray-100 ">
             <form action="{{ route('Register.store') }}" method="post"
                 class="shadow-md bg-gray-100 rounded pt-4 pb-4 mb-4  ">
                 @csrf
@@ -64,7 +66,7 @@
                 </div>
 
                 <div class="flex flex-col items-center justify-between">
-                    <button
+                    <button type="submit"
                         class=" text-black font-bold 
                     py-2 px-4 rounded focus:outline-none focus:shadow-outline">Register</button>
 
