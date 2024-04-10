@@ -44,8 +44,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    public function invoice()
+    public function InvoiceFreght()
     {
-        return $this->hasmany('invoice::class');
+        return $this->hasmany('InvoiceFreght::class');
+    }
+      public function PassengerInvoice()
+    {
+        return $this->hasmany('PassengerInvoice::class');
     }
 }

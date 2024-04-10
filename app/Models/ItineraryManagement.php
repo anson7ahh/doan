@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Itinerary;
+use App\Models\PassengerInvoice;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ItineraryManagement extends Model
 {
@@ -17,8 +19,12 @@ class ItineraryManagement extends Model
     {
         return $this->belongsTo('Itinerary::class');
     }
-    public function Invoice()
+    public function InvoiceFreght()
     {
-        return $this->hasmany('Invoice::class');
+        return $this->hasmany('InvoiceFreght::class');
+    }
+     public function PassengerInvoice()
+    {
+        return $this->hasmany('PassengerInvoice::class');
     }
 }

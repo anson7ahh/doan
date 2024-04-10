@@ -13,11 +13,11 @@ class Itinerary extends Model
     use HasFactory;
   
     protected $fillable = [
-        'itinerary'
+       
     ];
     protected $casts = [
-        'starting-poin' => StartingPoinEnum::class,
-        'vehicle_type' => VehicleTypeCoachEnum::class,//loai xe
+        'starting_poin' => StartingPoinEnum::class,
+        'destination' => VehicleTypeCoachEnum::class,//loai xe
         
     ];
     public function ItineraryManagement()

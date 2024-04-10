@@ -12,19 +12,25 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('passenger_invoices', function (Blueprint $table) {
-            Schema::create('invoices', function (Blueprint $table) {
+           
                 $table->id();
-                $table->timestamps();
+                // $table->timestamps();
+
                 $table->Integer('price');//gia
+                $table->unsignedBigInteger('coaches_id');
                 $table->unsignedBigInteger('users_id');
                 $table->unsignedBigInteger('itinerary_management_id');
+
                 $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')
                     ->onUpdate('cascade');
+
                 $table->foreign('itinerary_management_id')->references('id')
                 ->on('itinerary_management')->onDelete('cascade')
                     ->onUpdate('cascade');
+                $table->foreign('coaches_id')->references('id') ->on('coaches')->onDelete('cascade')
+                    ->onUpdate('cascade');
             });
-        });
+      
     }
 
     /**

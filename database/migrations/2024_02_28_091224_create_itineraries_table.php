@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('itineraries', function (Blueprint $table) {
             $table->id();
-            $table->string('starting-poin');//diem di
+            $table->string('starting_poin');//diem di
             $table->string('destination');//diem den
             $table->timestamps();
         });

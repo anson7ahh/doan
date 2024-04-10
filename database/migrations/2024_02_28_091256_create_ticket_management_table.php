@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('ticket_management', function (Blueprint $table) {
             $table->id();
-            $table->integer('sum-quantity');
+            $table->integer('sum_quantity');
 
             $table->unsignedBigInteger('itinerary_management_id');
-
-
-
             $table->foreign('itinerary_management_id')->references('id')->on('itinerary_management')->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->timestamps();

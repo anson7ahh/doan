@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class TicketManagement extends Model
 {
     use HasFactory;
+       protected $fillable = [
+        'sum_quantity',
+     
+    ];
     public function Ticket()
     {
         return $this->hasmany('ticket::class');

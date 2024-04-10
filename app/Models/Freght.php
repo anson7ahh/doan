@@ -15,8 +15,8 @@ class Freght extends Model
         'freght_name'
     ];
 
-    public function FreightManagement()
+    public function InvoiceFreght()
     {
-        return $this->belongsTo('FreightManagement::class');
+        return $this->belongsTo('InvoiceFreght::class');
     }
 }

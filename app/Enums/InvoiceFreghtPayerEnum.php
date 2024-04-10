@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Enums;
 
@@ -11,8 +9,8 @@ use BenSampo\Enum\Enum;
  * @method static static OptionTwo()
  * @method static static OptionThree()
  */
-final class FreightManagementsPayerEnum extends Enum
+final class InvoiceFreghtPayerEnum extends Enum
 {
-    public const sender = 'sender';
+   public const sender = 'sender';
     public const Receiver = 'Receiver';
 }

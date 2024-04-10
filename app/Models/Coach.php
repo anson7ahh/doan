@@ -13,6 +13,7 @@ class Coach extends Model
     protected $fillable = [
         'license_plate', //biển số xe
         'coach_maintenance_date',
+        
 
     ];
     protected $casts = [
