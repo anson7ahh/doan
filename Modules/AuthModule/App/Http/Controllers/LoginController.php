@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 
 class LoginController extends Controller
@@ -24,7 +27,7 @@ class LoginController extends Controller
      */
     public function create()
     {
-        return view('authmodule::login');
+        return view('authmodule::Login');
     }
 
     /**
@@ -32,54 +35,43 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        
-            if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
-                $userdetail = Auth::user();
-    
-                $user = User::find($userdetail->id);
-    
-                $token = $user->createToken('myApp')->accessToken;
-    
-                return response()->json(['token' => $token], 200);
+        try {
+            $validator = Validator::make($request->all(), [
+                'phone_number' => 'required',
+                'password' => 'required',
+            ]);
+            if ($validator->fails()) {
+                return redirect()->back()
+                    ->withErrors($validator->errors())
+                    ->withInput();
             }
-            return response()->json('The account does not exist', 400);
-        
+
+            if (!Auth::attempt(['phone_number' => request('phone_number'), 'password' => request('password')])) {
+                return redirect()->back()->withErrors(['message' => 'Tài khoản hoặc mật khẩu không đúng']);
+            }
+            $userdetail = Auth::user();
+            $user = User::find($userdetail->id);
+            $token = $user->createToken('accessToken')->plainTextToken;
+            return response()->redirectTo('/')->withCookie(cookie('login', $token, 60 * 24 * 30,  '/', NULL, TRUE, TRUE));
+        } catch (\Exception $error) {
+            return response()->json([
+                'status_code' => 500,
+                'message' => 'Error in Login',
+                'error' => $error,
+            ]);
+        }
     }
 
     /**
      * Show the specified resource.
      */
-   
-        public function getUserDetail()
-        {
-            if (Auth::guard('api')->check()) {
-                $user = Auth::guard('api')->user();
-                return Response(['data' => $user], 200);
-            }
-            return Response(['data' => 'Unauthorized'], 401);
+
+    public function getUserDetail()
+    {
+        if (Auth::guard('api')->check()) {
+            $user = Auth::guard('api')->user();
+            return Response(['data' => $user], 200);
         }
-    
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('authmodule::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
-    {
-       
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
+        return Response()->json(['data' => ''], 401);
     }
 }

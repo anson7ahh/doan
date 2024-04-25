@@ -3,8 +3,9 @@
 namespace App\Models;
 
 
-use App\Enums\StartingPoinEnum;
-use App\Enums\VehicleTypeCoachEnum;
+use App\Enums\ItineraryStartingPoinEnum;
+
+use App\Enums\ItineraryDestinationEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -16,8 +17,8 @@ class Itinerary extends Model
        
     ];
     protected $casts = [
-        'starting_poin' => StartingPoinEnum::class,
-        'destination' => VehicleTypeCoachEnum::class,//loai xe
+        'starting_poin' => ItineraryStartingPoinEnum::class,
+        'destination' => ItineraryDestinationEnum::class,
         
     ];
     public function ItineraryManagement()

@@ -16,7 +16,9 @@ return new class extends Migration
             $table->string('license_plate')->unique()->nullable(); //biển số xe khách
             $table->date('coach_maintenance_date'); //ngày bảo dưỡng
             $table->string('service')->nullable(); //dịch vụ
-            $table->string('vehicle_type')->nullable();// loai xe
+            $table->string('vehicle_type'); // loai xe
+            $table->integer('sum_ticket');
+
 
             $table->timestamps();
         });

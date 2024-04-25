@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class StaffManagement extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'work_timetable',
-        'salary',
-    ];
+    public function ItineraryManagement()
+    {
+        return $this->hasMany('ItineraryManagement::class');
+    }
     public function Staff()
     {
-        return $this->hasmany('Staff::class');
+        return $this->hasMany('Staff::class');
     }
 }

@@ -1,20 +1,20 @@
 <?php
 
-namespace Modules\UserModule\App\Http\Controllers;
+namespace Modules\AuthModule\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class BillController extends Controller
+class AuthController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('usermodule::Bill');
+        return view('authmodule::index');
     }
 
     /**
@@ -22,7 +22,7 @@ class BillController extends Controller
      */
     public function create()
     {
-        return view('usermodule::create');
+        return view('authmodule::create');
     }
 
     /**
@@ -38,7 +38,7 @@ class BillController extends Controller
      */
     public function show($id)
     {
-        return view('usermodule::show');
+        return view('authmodule::show');
     }
 
     /**
@@ -46,7 +46,7 @@ class BillController extends Controller
      */
     public function edit($id)
     {
-        return view('usermodule::edit');
+        return view('authmodule::edit');
     }
 
     /**

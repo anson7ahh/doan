@@ -11,3 +11,15 @@ input::-webkit-inner-spin-button {
 .top-menu-expanded {
     @apply z-50 flex-col justify-start h-[300px]  left-[160px] text-center grow right-[160px] top-[100px] bg-white absolute cursor-pointer;
 }
+.slick-next{
+    @apply  absolute w-[20px] h-full right-0 bg-white z-20;
+}   
+.slick-prev{
+    @apply  absolute w-[20px] h-full  left-0 bg-white z-20;
+}
+.tiket{
+    @apply bg-blue-300 rounded-lg w-20 text-center cursor-pointer;
+}
+.bg{
+    @apply bg-gray-300;
+}

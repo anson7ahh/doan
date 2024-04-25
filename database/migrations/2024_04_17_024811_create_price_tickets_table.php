@@ -11,17 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('staff_management', function (Blueprint $table) {
+        Schema::create('price_tickets', function (Blueprint $table) {
             $table->id();
-            $table->DateTime('work_timetable'); //lịch làm việc
-            $table->string('salary'); //lương
+            $table->integer('price')->nullable()->unsigned();
 
 
-            $table->unsignedBigInteger('staff_id');
+
+
+            $table->unsignedBigInteger('itineraries_id');
+
+
+            $table->foreign('itineraries_id')->references('id')
+                ->on('itineraries')->onDelete('cascade')
+                ->onUpdate('cascade');
+
 
             $table->timestamps();
-            $table->foreign('staff_id')->references('id')->on('staff')->onDelete('cascade')
-                ->onUpdate('cascade');
         });
     }
 
@@ -30,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('staff_management');
+        Schema::dropIfExists('price_tickets');
     }
 };

@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Itinerary;
 
+use App\Models\Itinerary;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ItinerarySeeder extends Seeder
@@ -14,8 +15,34 @@ class ItinerarySeeder extends Seeder
      */
     public function run(): void
     {
-        Itinerary::create([
 
+
+        DB::table('itineraries')->insert([
+            'starting_poin' => 'Hà Nội',
+            'destination' => 'Thanh Hóa',
+        ]);
+        DB::table('itineraries')->insert([
+            'starting_poin' => 'Hà Nội',
+            'destination' => 'Nghệ An',
+        ]);
+        DB::table('itineraries')->insert([
+            'starting_poin' => 'Nghệ An',
+            'destination' => 'Hà Nội',
+        ]);
+        DB::table('itineraries')->insert([
+            'starting_poin' => 'Nghệ An',
+            'destination' => 'Thanh Hóa',
+        ]);
+        DB::table('itineraries')->insert([
+            'starting_poin' => 'Thanh Hóa',
+            'destination' => 'Hà Nội',
+        ]);
+        DB::table('itineraries')->insert([
+            'starting_poin' => 'Thanh Hóa',
+            'destination' => 'Nghệ An',
+        ]);
+    }
+}
             // 'itinerary' => [
 
             //     'normal' => [
@@ -56,9 +83,3 @@ class ItinerarySeeder extends Seeder
             //     ],
 
             // ],
-
-
-
-        ]);
-    }
-}

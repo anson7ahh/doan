@@ -16,19 +16,16 @@ class Staff extends Model
         'birth_date',
         'position',
         'gender',
-     
+
 
     ];
     protected $casts = [
         'gender' => StaffGenderEnum::class,
         'position' => StaffPositionEnum::class
     ];
+
     public function StaffManagement()
     {
         return $this->belongsTo('StaffManagement::class');
-    }
-    public function ItineraryManagement()
-    {
-        return $this->hasMany('ItineraryManagement::class');
     }
 }

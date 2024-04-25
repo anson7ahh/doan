@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CoachManagement extends Model
 {
@@ -13,12 +14,13 @@ class CoachManagement extends Model
     {
         return $this->hasMany('Coach::class');
     }
-    public function TicketsManagement()
-    {
-        return $this->hasMany('TicketsManagement::class');
-    }
+
     public function ItineraryManagement()
     {
         return $this->hasMany('ItineraryManagement::class');
+    }
+    public function TicketManagement()
+    {
+        return $this->hasMany('TicketManagement::class');
     }
 }

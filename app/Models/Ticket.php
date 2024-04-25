@@ -12,8 +12,8 @@ class Ticket extends Model
         'seat_position', //vi tri ngoi
         'quantity', //so luong
     ];
-    public function TicketsManagement()
+    public function TicketManagement()
     {
-        return $this->belongsTo('TicketsManagement::class');
+        return $this->belongsTo('TicketManagement::class');
     }
 }

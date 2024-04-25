@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Coach;
 use App\Enums\CoachServiceEnum;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use App\Enums\VehicleTypeCoachEnum;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -15,13 +16,31 @@ class CoachSeeder extends Seeder
      */
     public function run(): void
     {
-        
-        Coach::create([
-        'license_plate'=>'37a-1231231',
-        'coach_maintenance_date'=>'2015-04-04',
-        'service'=>'user',
-        'vehicle_type'=>'regular'
 
-     ]);
+        DB::table('coaches')->insert([
+            'license_plate' => '37a-1',
+            'coach_maintenance_date' => '2015-04-04',
+            'service' => 'freights',
+            'vehicle_type' => 'Thường',
+            'sum_ticket' => '38',
+        ]);
+
+
+
+        DB::table('coaches')->insert([
+            'license_plate' => '37a-1122',
+            'coach_maintenance_date' => '2015-04-04',
+            'service' => 'user',
+            'vehicle_type' => 'vip',
+            'sum_ticket' => '24'
+        ]);
+        DB::table('coaches')->insert([
+            'license_plate' => '37a-11223',
+            'coach_maintenance_date' => '2015-04-04',
+            'service' => 'user',
+            'vehicle_type' => 'Thường',
+            'sum_ticket' => '32'
+
+        ]);
     }
 }

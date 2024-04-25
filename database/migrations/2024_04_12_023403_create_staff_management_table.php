@@ -11,14 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ticket_management', function (Blueprint $table) {
+        Schema::create('staff_management', function (Blueprint $table) {
             $table->id();
-            $table->integer('sum_quantity');
-
-            $table->unsignedBigInteger('itinerary_management_id');
-            $table->foreign('itinerary_management_id')->references('id')->on('itinerary_management')->onDelete('cascade')
-                ->onUpdate('cascade');
             $table->timestamps();
+            $table->unsignedBigInteger('staff_id');
+            $table->unsignedBigInteger('itinerary_management_id');
+
+
+            $table->foreign('itinerary_management_id')->references('id')
+                ->on('itinerary_management')->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreign('staff_id')->references('id')->on('staff')->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
@@ -27,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ticket_management');
+        Schema::dropIfExists('staff_management');
     }
 };

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Enums;
 
@@ -9,8 +11,8 @@ use BenSampo\Enum\Enum;
  * @method static static OptionTwo()
  * @method static static OptionThree()
  */
-final class VehicleTypeCoachEnum extends Enum
+final class CoachVehicleTypeEnum extends Enum
 {
-    const regular = 'regular';
+    const regular = 'Thường';
     const vip = 'vip';
 }

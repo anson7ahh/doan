@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" href="image/logo.png" type="image/gif" sizes="16x16">
+
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
     <title>Tân Minh Hà</title>
 </head>
 @vite('resources/css/app.css')
-
-
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -22,66 +22,72 @@
         <img class=" object-fill h-[500px] w-full " src="{{ asset('image/bgxetanminhha.png') }}">
     </section>
 
-    <section id='targetDropdownItem1' class='w-full flex flex-col  pt-20 px-10 '>
+
+
+    <section id='targetDropdownItem1' class='w-full flex flex-col  pt-20 px-5  '>
         <p class='font-bold font-mono text-3xl text-left my-10  '>Các tuyến đường phổ biến</p>
 
-        <div
-            class='pl-5 w-full h-full overflow-hidden overflow-x-scroll justify-start gap-20 flex flex-row  relative  '>
+        <div id='slick-slider'
+            class='w-full h-full overflow-hidden flex justify-start  flex-row  gap-10  relative z-10 '>
 
-
-            <div class ='mb-11 '>
-                <img class=" h-[200px] w-[300px] object-cover " src="{{ asset('image/vinh.jpg') }}">
-                <div class='w-[300px]  '>
-                    <p class="font-bold text-center">Vinh - Thanh Hóa (VIP)</p>
+            <div class ='block w-1/3 px-10  '>
+                <img class=" h-[200px] w-full object-fill " src="{{ asset('image/vinh.jpg') }}">
+                <div class='w-full  '>
+                    <p class="font-bold text-center">Nghệ An - Thanh Hóa (VIP)</p>
                     <p class='text-center'>Giá vé:200.000d</p>
                 </div>
             </div>
 
-            <div class ='block w-1/ mr-5'>
-                <img class=" h-[200px] w-[300px] object-fill " src="{{ asset('image/thanhhoa.png') }}">
-                <div class='w-[300px] '>
+            <div class ='block w-1/3 px-10 '>
+                <img class=" h-[200px] w-full object-fill " src="{{ asset('image/thanhhoa.png') }}">
+                <div class='w-full  '>
                     <p class="font-bold text-center">Thanh Hóa - Hà Nội (VIP)</p>
                     <p class='text-center'>Giá vé:250.000d</p>
                 </div>
             </div>
-            <div class ='block w-1/3  '>
-                <img class=" h-[200px] w-[300px] object-fill " src="{{ asset('image/hanoi.jpg') }}">
-                <div class='w-[300px] '>
-                    <p class="font-bold text-center">Vinh - Hà Nội (VIP)</p>
+            <div class ='block w-1/3 px-10 '>
+                <img class=" h-[200px] w-full object-fill " src="{{ asset('image/hanoi.jpg') }}">
+                <div class='w-full  '>
+                    <p class="font-bold text-center">Nghệ An - Hà Nội (VIP)</p>
                     <p class='text-center'>Giá vé:450.000d</p>
                 </div>
             </div>
 
-            <div class ='block w-1/3 mr-5  '>
-                <img class=" h-[200px] w-[300px] object-fill " src="{{ asset('image/vinh1.jpeg') }}">
-                <div class='w-[300px] '>
-                    <p class="font-bold text-center">Vinh - Thanh Hóa </p>
-                    <p class='text-center'>Giá vé:200.000d</p>
-                </div>
-            </div>
-            <div class ='block w-1/3 mr-5  '>
-                <img class=" h-[200px] w-[300px] object-fill " src="{{ asset('image/thanhhoa1.jpeg') }}">
-                <div class='w-[300px] '>
-                    <p class="font-bold text-center">Thanh Hóa - Hà Nội </p>
+            <div class ='block w-1/3 px-10 '>
+                <img class=" h-[200px] w-full  object-fill " src="{{ asset('image/vinh1.jpeg') }}">
+                <div class='w-full  '>
+                    <p class="font-bold text-center">Nghệ An - Thanh Hóa </p>
                     <p class='text-center'>Giá vé:150.000d</p>
                 </div>
             </div>
-            <div class ='block basis-1/3 mr-5  '>
+            <div class ='block w-1/3 px-10 '>
+                <img class=" h-[200px] w-full  object-fill " src="{{ asset('image/thanhhoa1.jpeg') }}">
+                <div class='w-full  '>
+                    <p class="font-bold text-center">Thanh Hóa - Hà Nội </p>
+                    <p class='text-center'>Giá vé:200.000d</p>
+                </div>
+            </div>
+            <div class ='block w-1/3 px-10 '>
 
-                <img class=" h-[200px] w-[300px] object-fill " src="{{ asset('image/hanoi1.jpeg') }}">
+                <img class=" h-[200px] w-full  object-fill " src="{{ asset('image/hanoi1.jpeg') }}">
 
-                <div class='w-[300px] '>
-                    <p class="font-bold text-center">Vinh - Hà Nội </p>
+                <div class='w-full  '>
+                    <p class="font-bold text-center">Nghệ An - Hà Nội </p>
                     <p class='text-center'>Giá vé:350.000d</p>
                 </div>
             </div>
+
+
         </div>
     </section>
+
+
 
     <section id="targetDropdownItem2" class='h-[400px]  flex flex-col justify-center px-10 pb-10  '>
         <div class=' flex items-center flex-col mt-[120px]'>
             <p class='font-bold text-2xl '>Dịch vụ tiện nghi</p>
-            <p class=''>Chúng tôi luôn mong muốn mang đến cho quý khách những dịch vụ và trải nghiệm tốt nhất</p>
+            <p class=''>Chúng tôi luôn mong muốn mang đến cho quý khách những dịch vụ và trải nghiệm tốt nhất
+            </p>
         </div>
         <div class='pt-10 flex flex-row justify-center gap-5  '>
             <div class='w-1/4 flex flex-col  items-center  '>
@@ -181,7 +187,31 @@
     </footer>
 
 
+    </section>
+    <!-- Tải jQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 
+    <!-- Tải Slick JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <script>
+        // Khởi tạo Slick slider sau khi tất cả các tài nguyên đã được tải
+        $(document).ready(function() {
+            $("#slick-slider").slick({
+                slidesToShow: 3,
+                infinite: true,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 1000,
+                arrows: true,
+
+                nextArrow: `<button type='button' class='slick-next pull-right'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg></button > `,
+                prevArrow: `<button type='button' class='slick-prev pull-left'><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg></button > `,
+            });
+        });
+    </script>
 </body>
 <script>
     //dropdown id
@@ -221,6 +251,13 @@
                 scrollLeft: 0
             }, "slow");
         });
+    });
+
+
+    $.ajaxSetup({
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader('Authorization', '...');
+        }
     });
 </script>
 

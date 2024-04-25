@@ -23,8 +23,17 @@ class ItineraryManagement extends Model
     {
         return $this->hasmany('InvoiceFreght::class');
     }
-     public function PassengerInvoice()
+    public function PassengerInvoice()
     {
         return $this->hasmany('PassengerInvoice::class');
+    }
+    public function TicketManagement()
+    {
+        return $this->hasMany('TicketManagement::class');
+    }
+
+    public function StaffManagement()
+    {
+        return $this->belongsTo('StaffManagement::class');
     }
 }

@@ -9,7 +9,7 @@ use BenSampo\Enum\Enum;
  * @method static static OptionTwo()
  * @method static static OptionThree()
  */
-final class DestinationEnum extends Enum
+final class ItineraryDestinationEnum extends Enum
 {
     const NgheAn = 'Nghệ An';
     const ThanhHoa = 'Thanh Hóa';

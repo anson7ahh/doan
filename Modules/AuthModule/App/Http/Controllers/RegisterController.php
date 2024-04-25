@@ -25,28 +25,28 @@ class RegisterController extends Controller
      */
     public function create()
     {
-        return view('authmodule::register');
+        return view('authmodule::Register');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request):RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $validator = Validator::make($request->all(), [
 
-          
+
             'name' => 'required|string|max:255',
             'phone_number' => 'required|regex:/(0)[0-9]{9}/|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password'         => 'required',
-        'password_confirm' => 'required|same:password|min:6' 
-           
+            'password_confirm' => 'required|same:password|min:6'
+
         ]);
         if ($validator->fails()) {
             return redirect()->back()
-                        ->withErrors($validator->errors())
-                        ->withInput();
+                ->withErrors($validator->errors())
+                ->withInput();
         }
         $user = new User();
         $user->name = $request->input('name');
@@ -54,7 +54,7 @@ class RegisterController extends Controller
         $user->email = $request->input('email');
         $user->password = Hash::make($request->password);
         $user->save();
-      
+
         return  redirect('/login')->with("succsess", 'thanh cong');
     }
 

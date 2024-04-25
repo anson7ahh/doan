@@ -48,7 +48,7 @@ class User extends Authenticatable
     {
         return $this->hasmany('InvoiceFreght::class');
     }
-      public function PassengerInvoice()
+    public function PassengerInvoice()
     {
         return $this->hasmany('PassengerInvoice::class');
     }

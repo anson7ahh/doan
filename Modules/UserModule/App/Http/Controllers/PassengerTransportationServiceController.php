@@ -2,10 +2,15 @@
 
 namespace Modules\UserModule\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Models\Ticket;
+use Illuminate\Http\RedirectResponse;
+
+use function PHPUnit\Framework\isEmpty;
 
 class PassengerTransportationServiceController extends Controller
 {
@@ -17,51 +22,118 @@ class PassengerTransportationServiceController extends Controller
         return view('usermodule::PassengerTransportationService');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    //  tìm kiếm vé xe
+
+
+    public function SearchItinerary(Request $request)
+
     {
-        return view('usermodule::create');
+        $startingPoin = $request->input('startingPoin');
+        $destination = $request->input('destination');
+        $date = $request->input('date');
+
+
+        if (!$startingPoin && !$date && !$destination) {
+
+            $results = DB::table('coaches')
+                ->join('coach_management', 'coaches.id', '=', 'coach_management.coaches_id')
+                ->join('itinerary_management', 'coach_management.itinerary_management_id', '=', 'itinerary_management.id')
+                ->join('itineraries', 'itinerary_management.itineraries_id', '=', 'itineraries.id')
+                ->join('price_tickets', 'itineraries.id', '=', 'price_tickets.itineraries_id')
+                ->select(
+                    'coaches.vehicle_type',
+                    'price_tickets.price',
+                    'itinerary_management.start_time',
+                    'itineraries.starting_poin',
+                    'itineraries.destination',
+                    'coaches.id',
+
+                )
+                ->where('coaches.service', '=', 'user')
+
+                ->get();
+
+            return view('usermodule::PassengerTransportationService', ['results' => $results]);
+        } else {
+            $results = DB::table('coaches')
+                ->join('coach_management', 'coaches.id', '=', 'coach_management.coaches_id')
+                ->join('itinerary_management', 'coach_management.itinerary_management_id', '=', 'itinerary_management.id')
+                ->join('itineraries', 'itinerary_management.itineraries_id', '=', 'itineraries.id')
+                ->join('price_tickets', 'itineraries.id', '=', 'price_tickets.itineraries_id')
+                ->select(
+                    'coaches.vehicle_type',
+                    'price_tickets.price',
+                    'itinerary_management.start_time',
+                    'itineraries.starting_poin',
+                    'itineraries.destination',
+                    'coaches.id',
+
+                )
+                ->where('coaches.service', '=', 'user')
+                ->where('itineraries.starting_poin', '=', $startingPoin)
+                ->where('itineraries.destination', '=', $destination)
+                ->whereDate('itinerary_management.start_time', '=', Carbon::parse($date))
+                ->get();
+
+
+            return view('usermodule::PassengerTransportationService', ['results' => $results]);
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
+
+    public function ShowBookTicketdetails($id)
     {
-        //
+
+        $results = DB::table('coaches')
+            ->join('coach_management', 'coaches.id', '=', 'coach_management.coaches_id')
+            ->join('itinerary_management', 'coach_management.itinerary_management_id', '=', 'itinerary_management.id')
+            ->join('itineraries', 'itinerary_management.itineraries_id', '=', 'itineraries.id')
+            ->join('price_tickets', 'itineraries.id', '=', 'price_tickets.itineraries_id')
+            ->select(
+                'price_tickets.price',
+                'itineraries.starting_poin',
+                'itineraries.destination',
+                'itinerary_management.start_time',
+                'coaches.vehicle_type',
+                'coaches.id'
+
+            )
+            ->where('coaches.service', '=', 'user')
+            ->where('coaches.id', '=', $id)
+            ->first();
+        return view('usermodule::BookTicket', ['results' => $results]);
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('usermodule::show');
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function BookTicketdetails(Request $request, $id)
     {
-        return view('usermodule::edit');
-    }
+        try {
+            $token = $request->cookie('login');
+            $selectedValues = $request->input('selectedValues');
+            if ($token) {
+                $table =  DB::table('coaches')
+                    ->join('coach_management', 'coach_management.coaches_id', '=', 'coaches.id')
+                    ->join('ticket_management', 'ticket_management.coach_management_id', '=', 'coach_management.id')
+                    ->join('tickets', 'ticket_management.ticket_id', '=', 'tickets.id')
+                    ->select('tickets.seat_position')
+                    ->where('coaches.service', '=', $id)
+                    ->get();
+                foreach ($selectedValues as $value) {
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        //
+                    //     $table->insert([
+                    //         'seat_position' => $value,
+                    //     ]);
+                }
+                return $table;
+            } else {
+                return redirect('/login');
+            }
+        } catch (\Exception $error) {
+            return response()->json([
+                'status_code' => 500,
+                'error' => $error,
+            ]);
+        }
     }
 }

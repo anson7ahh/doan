@@ -8,16 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class TicketManagement extends Model
 {
     use HasFactory;
-       protected $fillable = [
-        'sum_quantity',
-     
-    ];
     public function Ticket()
     {
-        return $this->hasmany('ticket::class');
+        return $this->hasMany('Ticket::class');
     }
-    public function ItineraryManagement()
+    public function CoachManagement()
     {
-        return $this->belongsTo('ItineraryManagement::class');
+        return $this->belongsTo('CoachManagement::class');
     }
 }

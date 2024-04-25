@@ -18,21 +18,20 @@ use Modules\UserModule\App\Http\Controllers\PassengerTransportationServiceContro
 |
 */
 
-Route::group([], function () {
-    Route::resource('/', UserModuleController::class)->names('usermodule.index');
-   
+
+Route::resource('/', UserModuleController::class)->names('usermodule.index');
+
+
+Route::prefix('Dich-vu-van-tai-hanh-khach')->group(function () {
+    Route::get('/', [PassengerTransportationServiceController::class, 'index']);
+    Route::get('/', [PassengerTransportationServiceController::class, 'SearchItinerary'])->name('SearchItinerary');
+
+    Route::get('/dat-ve/{id}', [PassengerTransportationServiceController::class, 'ShowBookTicketdetails'])->name('ShowBookTicketdetails');
+    Route::post('/dat-ve/{id}', [PassengerTransportationServiceController::class, 'BookTicketdetails'])->name('BookTicketdetails');
 });
-
-Route::group([], function () {
-    Route::resource('/Dich-vu-van-tai-hanh-khach', PassengerTransportationServiceController::class)->names('PassengerTransportationService.index');
-
-});
-
 Route::group([], function () {
     Route::resource('/Dich-vu-van-tai-hang-hoa', FreightTransportationServicesController::class)->names('FreightTransportationServices.index');
-
 });
 Route::group([], function () {
-    Route::resource('/hoa-don', InvoicesController::class)->names('Bill.index');
-
+    Route::resource('/hoa-don', InvoicesController::class);
 });

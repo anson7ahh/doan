@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Modules\AuthModule\App\Http\Controllers\LoginController;
 
 /*
     |--------------------------------------------------------------------------
@@ -17,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum'])->prefix('v1')->name('api.')->group(function () {
     Route::get('authmodule', fn (Request $request) => $request->user())->name('authmodule');
 });
+route::post('login', [LoginController::class, 'store'])->name('login.strore');
