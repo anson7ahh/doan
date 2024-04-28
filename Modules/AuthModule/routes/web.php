@@ -29,7 +29,7 @@ Route::prefix('login')->group(function () {
     Route::get('/', [LoginController::class, 'create'])->name('login.crate');
     // route::post('/', [LoginController::class, 'store'])->name('login.strore');
     // Route::get('/quên-mật-khẩu', [ForgotPasswordController::class, 'index'])->name('ForgotPassword.index');
-
+    route::post('', [LoginController::class, 'store'])->name('login.strore');
 });
 
 Route::get('/logout', [LogoutController::class, 'destroy'])->name('logout.destroy');

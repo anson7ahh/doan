@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Itinerary;
-use App\Models\PassengerInvoice;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class ItineraryManagement extends Model
 {
+
     use HasFactory;
-    protected $fillable = [
+    protected $dates  = [
         'start_time',
         'end_time',
 

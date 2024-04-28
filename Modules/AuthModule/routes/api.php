@@ -18,4 +18,4 @@ use Modules\AuthModule\App\Http\Controllers\LoginController;
 Route::middleware(['auth:sanctum'])->prefix('v1')->name('api.')->group(function () {
     Route::get('authmodule', fn (Request $request) => $request->user())->name('authmodule');
 });
-route::post('login', [LoginController::class, 'store'])->name('login.strore');
+// route::post('login', [LoginController::class, 'store'])->name('login.strore');

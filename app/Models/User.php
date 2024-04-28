@@ -52,4 +52,8 @@ class User extends Authenticatable
     {
         return $this->hasmany('PassengerInvoice::class');
     }
+    public function Ticket()
+    {
+        return $this->hasmany('Ticket::class');
+    }
 }

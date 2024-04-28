@@ -20,9 +20,9 @@
     </marquee>
     <section class="w-full  flex flex-row px-10 ">
 
-        <div class="flex flex-row h-full w-1/3 border-2 border-blue-500 rounded-lg">
-            <form class="flex flex-col w-full bg-white h-2/3" action={{ route('SearchItinerary') }} method="GET">
-                <p class="text-center">Đặt vé trực tuyến</p>
+        <div class="flex flex-row h-full w-full border-2 border-blue-500 rounded-lg">
+            <form class="flex flex-row w-full bg-white h-2/3" action={{ route('SearchItinerary') }} method="GET">
+
                 <input class="text-center" list="startingPoin" placeholder="Điểm đi" name="startingPoin" required>
                 <datalist id="startingPoin">
                     <option class="text-center" value="Hà Nội">
@@ -49,13 +49,14 @@
                     kiếm</button>
             </form>
         </div>
-
-        <div class="  pl-10">
+    </section>
+    <section>
+        <div class=" px-10">
             <div class="bg-blue-100">
                 <p class="text-center font-bold ">Danh sách các chuyến xe</p>
             </div>
-            <table class="w-full text-sm text-left ">
-                <thead class="text-xs text-gray-700 uppercase  dark:bg-gray-700 dark:text-gray-400">
+            <table class="w-full text-sm text-left  ">
+                <thead class="text-xs text-gray-700 uppercase   ">
                     <tr>
                         <th scope="col" class="px-6 py-3">
                             Điểm đi
@@ -81,10 +82,9 @@
                     @if ($results->isEmpty())
                         <td>Không có kết quả tìm kiếm</td>
                     @else
-                        <tr>
-                            @foreach ($results as $result)
-                                <th scope="row"
-                                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        @foreach ($results as $result)
+                            <tr class="relative bg-gray-300 w-full">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                                     {{ $result->starting_poin }}
                                 </th>
                                 <td class="px-6 py-4 text-gray-900">
@@ -100,18 +100,336 @@
                                 <td class="px-6 py-4 text-gray-900">
                                     {{ $result->vehicle_type }}
                                 </td>
-                                <td class="px-6 py-4 text-gray-900 cursor-pointer hover:blue-100">
-                                    <a href="{{ route('ShowBookTicketdetails', ['id' => $result->id]) }}">
-                                        Chi tiết</a>
-                                </td>
-                        </tr>
-                    @endforeach
-                    @endif
+                                <td><button id='toggleCoachesDetail'
+                                        class="px-2 py-2 text-gray-900 cursor-pointer bg-red-300 rounded-lg ">
+                                        Chi tiết
+                                    </button></td>
+
+                            </tr>
                 </tbody>
             </table>
-        </div>
+            <div id='targetToggleCoachesDetail' class="absolute  bg-blue-200 w-11/12 hidden  rounded-lg ">
+                @if ($result->vehicle_type === 'Thường' || $result->vehicle_type === 'regular')
+                    <div class="flex flex-row  gap-20 pt-2 justify-evenly pb-5">
+                        <div>Tầng 1</div>
+                        <div>Tầng 2</div>
+                    </div>
 
+                    <div class="flex flex-row gap-10">
+
+                        <ul class=" grid grid-cols-3 grid-rows-7 grid-flow-col gap-4 w-1/2">
+                            <li>
+                                <p class="tiket" data-value="A1">A1</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="A2">A2</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="A3">A3</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="A4">A4</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="A5">A5</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="A6">A6</p>
+                            </li>
+                            <li>
+                                <p class="bg-blue-300 rounded-lg w-20 text-center " data-value="A7">A7
+                                </p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="B1">B1</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="B2">B2</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="B3">B3</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="B4">B4</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="B5">B5</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="B6">B6</p>
+                            </li>
+                            <li>
+                                <p class="tiket " data-value="B7">B7</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="C1">C1</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="C2">C2</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="C3">C3</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="C4">C4</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="C5">C5</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="C6">C6</p>
+                            </li>
+                            <li>
+                                <p class="bg-blue-300 rounded-lg w-20 hidden" data-value="C7">C7</p>
+                            </li>
+                        </ul>
+
+                        <ul class=" grid grid-cols-3 grid-rows-7 grid-flow-col gap-4 w-1/2">
+                            <li>
+                                <p class="tiket" data-value="D1">D1</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="D2">D2</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="D3">D3</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="D4">D4</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="D5">D5</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="D6">D6</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="D7">D7</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="E1">E1</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="E2">E2</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="E3">E3</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="E4">E4</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="E5">E5</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="E6">E6</p>
+                            </li>
+                            <li>
+                                <p class="tiket hidden" data-value="E7">E7</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="F1">F1</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="F2">F2</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="F3">F3</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="F4">F4</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="F5">F5</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="F6">F6</p>
+                            </li>
+                            <li>
+                                <p class="tiket hidden" data-value="F7">F7</p>
+                            </li>
+
+                        </ul>
+                    </div>
+                @else
+                    <div class="flex flex-row gap-20 pt-4 justify-evenly pb-5">
+
+                        <div>Tầng 1</div>
+                        <div>Tầng 2</div>
+                    </div>
+                    <div class="flex flex-row">
+                        <ul class=" px-20 grid grid-cols-2 grid-rows-7 grid-flow-col gap-4 w-1/2 justify-center">
+                            <li>
+                                <p class="tiket" data-value="A1">A1</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="A2">A2</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="A3">A3</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="A4">A4</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="A5">A5</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="A6">A6</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="A7">A7</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="B1">B1</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="B2">B2</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="B3">B3</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="B4">B4</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="B5">B5</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="B6">B6</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="B7">B7</p>
+                            </li>
+                        </ul>
+                        <ul class=" grid grid-cols-2 grid-rows-7 grid-flow-col gap-4 w-1/2 justify-center">
+                            <li>
+                                <p class="tiket" data-value="D1">D1</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="D2">D2</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="D3">D3</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="D4">D4</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="D5">D5</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="D6">D6</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="D7">D7</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="E1">E1</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="E2">E2</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="E3">E3</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="E4">E4</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="E5">E5</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="E6">E6</p>
+                            </li>
+                            <li>
+                                <p class="tiket" data-value="E7">E7</p>
+                            </li>
+                    </div>
+                @endif
+                <div>
+                    @if (Auth::check())
+                        <div class="pt-10 flex justify-center w-5/6 pb-5 ">
+                            <button id='btn' class=' bg-red-200 w-20 rounded-lg'>Đặt vé</button>
+
+                        </div>
+                    @else
+                        <div class="pt-10 flex justify-center w-5/6  pb-5">
+                            <button onclick="alert(`Bạn chưa đăng nhập`)" class=' bg-red-200 w-20 rounded-lg '>Đặt
+                                vé</button>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+        @endforeach
+        @endif
+
+        </div>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
     </section>
 </body>
+<script>
+    $(document).ready(function() {
+
+        $("#toggleCoachesDetail").click(function() {
+            $("#targetToggleCoachesDetail").toggle();
+        });
+        var selectedValues = [];
+
+        $("p").click(function() {
+
+            var paragraphValue = $(this).data('value');
+
+            var index = selectedValues.indexOf(paragraphValue);
+
+            if (index === -1) {
+
+                if (selectedValues.length < 4) {
+                    selectedValues.push($(this).data('value'));
+
+                    $(this).addClass('bg');
+
+                } else {
+                    alert('Bạn không thể đặt quá 4 vé');
+                }
+            } else {
+                selectedValues.splice(index, 1);
+                $(this).removeClass('bg');
+            }
+            console.log("Giá trị của p là: " + selectedValues);
+
+
+        });
+        $('#btn').click(function() {
+            // Gửi dữ liệu đã chọn lên server bằng AJAX
+            if (selectedValues.length !== 0) {
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                    },
+                    url: '{{ route('BookTicket.store', ['id' => $result->id]) }}',
+                    data: {
+                        selectedValues: selectedValues,
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        console.log(response);
+                        alert('Bạn đã đặt vé thành công');
+                    },
+                    error: function(xhr, status, error) {
+                        // Xử lý lỗi (nếu có)
+                        console.log(JSON.stringify(error));
+                    }
+
+                });
+            } else {
+                alert('Bạn chưa chọn vé');
+            }
+        });
+    })
+</script>
 
 </html>

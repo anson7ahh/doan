@@ -11,19 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('coach_management', function (Blueprint $table) {
+        Schema::create('itinerary_management', function (Blueprint $table) {
             $table->id();
+            $table->DATETIME('start_time'); //thời gian đi
+            $table->DATETIME('end_time'); //thời gian tới
             $table->unsignedBigInteger('coaches_id');
-            $table->unsignedBigInteger('itinerary_management_id');
+            $table->unsignedBigInteger('itineraries_id');
 
 
-            $table->foreign('itinerary_management_id')->references('id')->on('itinerary_management')->onDelete('cascade')
-                ->onUpdate('cascade');
             $table->foreign('coaches_id')->references('id')->on('coaches')->onDelete('cascade')
                 ->onUpdate('cascade');
-
-
-
+            $table->foreign('itineraries_id')->references('id')->on('itineraries')->onDelete('cascade')
+                ->onUpdate('cascade');
 
 
             $table->timestamps();
@@ -35,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('coach_management');
+        //
     }
 };

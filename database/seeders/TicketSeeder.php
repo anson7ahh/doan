@@ -21,9 +21,20 @@ class TicketSeeder extends Seeder
         for ($i = 0; $i < $limit; $i++) {
             DB::table('tickets')->insert([
                 'seat_position' => $faker->randomElement(['a', 'b', 'c']),
-
+                'coaches_id' => '2'
 
             ]);
         };
+
+
+
+
+        for ($i = 0; $i < $limit; $i++) {
+            DB::table('tickets')->insert([
+                'seat_position' => $faker->randomElement(['a', 'b', 'c']),
+                'coaches_id' => '3'
+
+            ]);
+        }
     }
 }

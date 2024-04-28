@@ -254,11 +254,11 @@
     });
 
 
-    $.ajaxSetup({
-        beforeSend: function(xhr) {
-            xhr.setRequestHeader('Authorization', '...');
-        }
-    });
+    // $.ajaxSetup({
+    //     beforeSend: function(xhr) {
+    //         xhr.setRequestHeader('Authorization', '...');
+    //     }
+    // });
 </script>
 
 </html>

@@ -21,10 +21,7 @@ class Coach extends Model
         'service' => CoachServiceEnum::class,
         'vehicle_type' => CoachVehicleTypeEnum::class, //loai xe
     ];
-    public function CoachManagements()
-    {
-        return $this->belongsto('CoachManagements::class');
-    }
+
     public function Ticket()
     {
         return $this->hasmany('Ticket::class');

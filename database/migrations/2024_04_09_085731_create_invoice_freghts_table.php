@@ -15,23 +15,21 @@ return new class extends Migration
             $table->id();
             $table->string('recipient_name')->nullable();
             $table->string('recipient_address')->nullable();
-          
+
             $table->integer('recipient_phone_number')->nullable()->unique()->unsigned();
             $table->integer('price')->unsigned(); //giá
             $table->string('payer'); // người trả tiền
-            
+
             $table->unsignedBigInteger('users_id');
             $table->unsignedBigInteger('freghts_id');
-            $table->unsignedBigInteger('itinerary_management_id');
-           
+
+
             $table->timestamps();
-            $table->foreign('itinerary_management_id')->references('id')
-            ->on('itinerary_management')->onDelete('cascade')
-                ->onUpdate('cascade');
+
             $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')
-            ->onUpdate('cascade'); 
+                ->onUpdate('cascade');
             $table->foreign('freghts_id')->references('id')->on('freghts')->onDelete('cascade')
-            ->onUpdate('cascade');
+                ->onUpdate('cascade');
         });
     }
 

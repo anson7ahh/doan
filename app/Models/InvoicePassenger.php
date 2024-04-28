@@ -9,20 +9,13 @@ class InvoicePassenger extends Model
 {
     use HasFactory;
     protected $fillable = ['status', 'payer', 'recipient_phone_number'];
-    public function ItineraryManagement()
-    {
-        return $this->belongsTo('ItineraryManagement::class');
-    }
+
     public function User()
     {
         return $this->belongsTo('User::class');
     }
-    public function Freght()
+    public function Coach()
     {
-        return $this->hasmany('Freght::class');
-    }
-    public function PriceTicket()
-    {
-        return $this->hasMany('PriceTicket::class');
+        return $this->belongsTo('Coach::class');
     }
 }

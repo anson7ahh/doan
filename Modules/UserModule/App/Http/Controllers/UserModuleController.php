@@ -28,14 +28,12 @@ class UserModuleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Show the specified resource.
-     */
+
     public function show($id)
     {
         return view('usermodule::show');

@@ -15,12 +15,16 @@ class LogoutController extends Controller
 
     public function destroy(Request $request)
     {
-        $request->session()->invalidate();
-
-
         Auth::guard('web')->logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
 
-        Cookie::forget('login');
-        return redirect('/');
+        // request()->session()->regenerateToken());
+        // Xóa cookie đăng nhập khỏi trình duyệt
+        $cookie1 = Cookie::forget("laravel_session"); // Thay 'laravel_session' bằng tên cookie của bạn
+        $cookie2 = Cookie::forget('login');
+
+        $cookie = [$cookie1, $cookie2];
+        return redirect('/')->withCookies($cookie);
     }
 }

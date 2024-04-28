@@ -3,13 +3,14 @@
 namespace Modules\UserModule\App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\Ticket;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Http\RedirectResponse;
 use function PHPUnit\Framework\isEmpty;
 
 class PassengerTransportationServiceController extends Controller
@@ -37,8 +38,7 @@ class PassengerTransportationServiceController extends Controller
         if (!$startingPoin && !$date && !$destination) {
 
             $results = DB::table('coaches')
-                ->join('coach_management', 'coaches.id', '=', 'coach_management.coaches_id')
-                ->join('itinerary_management', 'coach_management.itinerary_management_id', '=', 'itinerary_management.id')
+                ->join('itinerary_management', 'coaches.id', '=', 'itinerary_management.coaches_id')
                 ->join('itineraries', 'itinerary_management.itineraries_id', '=', 'itineraries.id')
                 ->join('price_tickets', 'itineraries.id', '=', 'price_tickets.itineraries_id')
                 ->select(
@@ -47,18 +47,17 @@ class PassengerTransportationServiceController extends Controller
                     'itinerary_management.start_time',
                     'itineraries.starting_poin',
                     'itineraries.destination',
-                    'coaches.id',
-
+                    'coaches.id'
                 )
                 ->where('coaches.service', '=', 'user')
-
                 ->get();
 
             return view('usermodule::PassengerTransportationService', ['results' => $results]);
         } else {
+
+
             $results = DB::table('coaches')
-                ->join('coach_management', 'coaches.id', '=', 'coach_management.coaches_id')
-                ->join('itinerary_management', 'coach_management.itinerary_management_id', '=', 'itinerary_management.id')
+                ->join('itinerary_management', 'coaches.id', '=', 'itinerary_management.coaches_id')
                 ->join('itineraries', 'itinerary_management.itineraries_id', '=', 'itineraries.id')
                 ->join('price_tickets', 'itineraries.id', '=', 'price_tickets.itineraries_id')
                 ->select(
@@ -67,8 +66,7 @@ class PassengerTransportationServiceController extends Controller
                     'itinerary_management.start_time',
                     'itineraries.starting_poin',
                     'itineraries.destination',
-                    'coaches.id',
-
+                    'coaches.id'
                 )
                 ->where('coaches.service', '=', 'user')
                 ->where('itineraries.starting_poin', '=', $startingPoin)
@@ -76,59 +74,59 @@ class PassengerTransportationServiceController extends Controller
                 ->whereDate('itinerary_management.start_time', '=', Carbon::parse($date))
                 ->get();
 
-
             return view('usermodule::PassengerTransportationService', ['results' => $results]);
         }
     }
 
 
-    public function ShowBookTicketdetails($id)
+    public function ShowTicketBooked($id)
     {
 
-        $results = DB::table('coaches')
-            ->join('coach_management', 'coaches.id', '=', 'coach_management.coaches_id')
-            ->join('itinerary_management', 'coach_management.itinerary_management_id', '=', 'itinerary_management.id')
-            ->join('itineraries', 'itinerary_management.itineraries_id', '=', 'itineraries.id')
-            ->join('price_tickets', 'itineraries.id', '=', 'price_tickets.itineraries_id')
+        $datas = DB::table('coaches')
+            ->join('tickets', 'tickets.coaches_id', '=', 'coaches.id')
             ->select(
-                'price_tickets.price',
-                'itineraries.starting_poin',
-                'itineraries.destination',
-                'itinerary_management.start_time',
-                'coaches.vehicle_type',
-                'coaches.id'
-
+                'tickets.seat_position'
             )
-            ->where('coaches.service', '=', 'user')
             ->where('coaches.id', '=', $id)
-            ->first();
-        return view('usermodule::BookTicket', ['results' => $results]);
+            ->get();
+
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'success',
+            'datas' => $datas,
+
+        ]);;
     }
 
 
-    public function BookTicketdetails(Request $request, $id)
+    public function BookTicket(Request $request, $id)
     {
         try {
-            $token = $request->cookie('login');
+            $user = Auth::user();
             $selectedValues = $request->input('selectedValues');
-            if ($token) {
-                $table =  DB::table('coaches')
-                    ->join('coach_management', 'coach_management.coaches_id', '=', 'coaches.id')
-                    ->join('ticket_management', 'ticket_management.coach_management_id', '=', 'coach_management.id')
-                    ->join('tickets', 'ticket_management.ticket_id', '=', 'tickets.id')
-                    ->select('tickets.seat_position')
-                    ->where('coaches.service', '=', $id)
-                    ->get();
-                foreach ($selectedValues as $value) {
+            $user = Auth::guard('web')->user();
 
-                    //     $table->insert([
-                    //         'seat_position' => $value,
-                    //     ]);
-                }
-                return $table;
-            } else {
-                return redirect('/login');
+            foreach ($selectedValues as $value) {
+                DB::table('tickets')->insert([
+                    'seat_position' => $value,
+                    'coaches_id' => $id,
+                    'userName' => $user->name,
+                    'phoneNumber' => $user->phone_number,
+                    'user_id' => $user->id,
+                ]);
             }
+
+            DB::table('invoice_passengers')->insert([
+                'coaches_id' => $id,
+                'users_id' => $user->id,
+            ]);
+            return response()->json([
+                'status' => 200,
+                'message' => 'success',
+
+
+            ]);
         } catch (\Exception $error) {
             return response()->json([
                 'status_code' => 500,

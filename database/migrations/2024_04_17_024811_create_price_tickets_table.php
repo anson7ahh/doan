@@ -14,13 +14,7 @@ return new class extends Migration
         Schema::create('price_tickets', function (Blueprint $table) {
             $table->id();
             $table->integer('price')->nullable()->unsigned();
-
-
-
-
             $table->unsignedBigInteger('itineraries_id');
-
-
             $table->foreign('itineraries_id')->references('id')
                 ->on('itineraries')->onDelete('cascade')
                 ->onUpdate('cascade');
