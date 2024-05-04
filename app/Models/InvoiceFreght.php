@@ -11,20 +11,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class InvoiceFreght extends Model
 {
     use HasFactory;
-    protected $fillable = ['status', 'price', 'payer', 'recipient_phone_number'];
+    protected $fillable = [
+        'status', 'price', 'payer', 'recipient_phone_number', 'weight',
+        'sender_name', 'sender_phone_number', 'sender_address'
+    ];
     protected $casts = [
         'status' => InvoiceFreghtStatusEnum::class,
         'payer' => InvoiceFreghtPayerEnum::class,
     ];
-    public function ItineraryManagement()
+
+    public function User()
     {
-        return $this->belongsTo('ItineraryManagement::class');
-    }
-     public function User()
-    {
-    return $this->belongsTo('User::class');
-    }
-    public function Freght(){
-        return $this->hasmany('Freght::class');
+        return $this->belongsTo('User::class');
     }
 }

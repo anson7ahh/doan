@@ -15,20 +15,20 @@ return new class extends Migration
             $table->id();
             $table->string('recipient_name')->nullable();
             $table->string('recipient_address')->nullable();
-
-            $table->integer('recipient_phone_number')->nullable()->unique()->unsigned();
-            $table->integer('price')->unsigned(); //giá
+            $table->string('weight');
+            $table->integer('recipient_phone_number')->unsigned();
+            $table->integer('price')->unsigned()->nullable(); //giá
             $table->string('payer'); // người trả tiền
+            $table->string('sender_name');
+            $table->integer('sender_phone_number');
+            $table->string('sender_address');
+            $table->unsignedBigInteger('user_id');
 
-            $table->unsignedBigInteger('users_id');
-            $table->unsignedBigInteger('freghts_id');
 
 
             $table->timestamps();
 
-            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')
-                ->onUpdate('cascade');
-            $table->foreign('freghts_id')->references('id')->on('freghts')->onDelete('cascade')
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')
                 ->onUpdate('cascade');
         });
     }

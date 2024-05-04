@@ -12,17 +12,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Itinerary extends Model
 {
     use HasFactory;
-  
-    protected $fillable = [
-       
-    ];
+
+    protected $fillable = [];
     protected $casts = [
         'starting_poin' => ItineraryStartingPoinEnum::class,
         'destination' => ItineraryDestinationEnum::class,
-        
+
     ];
     public function ItineraryManagement()
     {
         return $this->hasMany('ItineraryManagement::class');
+    }
+    public function Coach()
+    {
+        return $this->belongsTo('Coach::class');
     }
 }

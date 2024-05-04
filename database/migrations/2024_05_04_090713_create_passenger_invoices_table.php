@@ -15,14 +15,16 @@ return new class extends Migration
             $table->id();
 
             $table->unsignedBigInteger('coaches_id');
-            $table->unsignedBigInteger('users_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('itinerary_management_id');
 
 
-
-            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade')
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->foreign('coaches_id')->references('id')->on('coaches')->onDelete('cascade')
+                ->onUpdate('cascade');
+            $table->foreign('itinerary_management_id')->references('id')->on('itinerary_management')->onDelete('cascade')
                 ->onUpdate('cascade');
 
             $table->timestamps();

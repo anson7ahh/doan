@@ -22,24 +22,24 @@ class CoachSeeder extends Seeder
             'coach_maintenance_date' => '2015-04-04',
             'service' => 'freights',
             'vehicle_type' => 'Thường',
-            'sum_ticket' => '38',
+            'sum_ticket' => '34',
         ]);
 
 
 
         DB::table('coaches')->insert([
-            'license_plate' => '37a-1122',
+            'license_plate' => '37a-2',
             'coach_maintenance_date' => '2015-04-04',
             'service' => 'user',
             'vehicle_type' => 'vip',
-            'sum_ticket' => '24'
+            'sum_ticket' => '28'
         ]);
         DB::table('coaches')->insert([
-            'license_plate' => '37a-11223',
+            'license_plate' => '37a-3',
             'coach_maintenance_date' => '2015-04-04',
             'service' => 'user',
             'vehicle_type' => 'Thường',
-            'sum_ticket' => '32'
+            'sum_ticket' => '34'
 
         ]);
     }

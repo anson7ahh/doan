@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" href="image/logo.png" type="image/gif" sizes="16x16">
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <title>Tân Minh Hà</title>
 </head>
@@ -40,15 +40,44 @@
                     </div>
                 @endforeach
             </div>
-        @else
-            <div>
-                <P>{{ $message }}</P>
-            </div>
-        @endif
+
     </section>
+    <section>
+        <div>
 
+            @foreach ($datas as $data)
+                <div class="flex flex-col bg-gray-100 rounded-lg mt-10 px-10 pb-10 ">
+                    <div class="text-center pt-5">Danh sách hóa đơn giao hàng đã đặt</div>
+                    <div class="flex flex-row  justify-around">
+                        <div class="flex flex-col gap-3  ">
+                            <p> <span class=" font-bold">Tên người nhận:</span>{{ $data->recipient_name }}</p>
+                            <p><span class=" font-bold">Số điện thoại người
+                                    nhận:</span>{{ $data->recipient_phone_number }}
+                            </p>
+                            <p><span class=" font-bold">Địa chỉ người nhận:</span>{{ $data->recipient_address }}</p>
+                        </div>
+                        <div>
 
-    <script></script>
+                            <p><span class=" font-bold">người gửi:</span>{{ $data->sender_name }}</p>
+                            <p><span class=" font-bold">Số điện thoại người gửi :</span>
+                                {{ $data->sender_phone_number }}</p>
+                            <p><span class=" font-bold">Địa chỉ người gửi:</span>{{ $data->sender_address }} </p>
+                        </div>
+
+                    </div>
+                    <div class="flex justify-center">
+                        <a class="text-red-500 font-bold pl-10" onclick=" return confirm('ban co chac chan muon xoa')"
+                            href=" {{ route('invoices.destroy', ['id' => $data->id]) }}">Hủy hóa đơn</a>
+                    </div>
+                </div>
+            @endforeach
+    </section>
+@else
+    <div>
+        <P>{{ $message }}</P>
+    </div>
+    @endif
+
 </body>
 
 </html>

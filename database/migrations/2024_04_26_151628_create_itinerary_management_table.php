@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('itinerary_management', function (Blueprint $table) {
             $table->id();
-            $table->DATETIME('start_time'); //thời gian đi
-            $table->DATETIME('end_time'); //thời gian tới
+            $table->DATETIME('start_time')->format('Y-m-d H:i'); //thời gian đi
+            $table->DATETIME('end_time')->format('Y-m-d H:i'); //thời gian tới
             $table->unsignedBigInteger('coaches_id');
             $table->unsignedBigInteger('itineraries_id');
 

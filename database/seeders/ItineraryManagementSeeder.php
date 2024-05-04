@@ -17,22 +17,40 @@ class ItineraryManagementSeeder extends Seeder
 
 
         ItineraryManagement::create([
-            'start_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-04-27 21:40'),
-            'end_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-4-28 5:40'),
+            'start_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-5-27 21:40'),
+            'end_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-5-28 5:40'),
             'itineraries_id' => 1,
             'coaches_id' => 3,
         ]);
         ItineraryManagement::create([
-            'start_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-4-20 21:40'),
-            'end_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-4-29 5:40'),
+            'start_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-5-15 21:40'),
+            'end_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-5-16 5:40'),
+            'itineraries_id' => 2,
+            'coaches_id' => 3
+        ]);
+        ItineraryManagement::create([
+            'start_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-5-29 21:40'),
+            'end_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-5-30 5:40'),
+            'itineraries_id' => 1,
+            'coaches_id' => 2,
+        ]);
+        ItineraryManagement::create([
+            'start_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-5-27 21:40'),
+            'end_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-5-28 5:40'),
+            'itineraries_id' => 3,
+            'coaches_id' => 2,
+        ]);
+        ItineraryManagement::create([
+            'start_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-6-15 21:40'),
+            'end_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-6-16 5:40'),
             'itineraries_id' => 2,
             'coaches_id' => 2
         ]);
         ItineraryManagement::create([
-            'start_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-4-29 21:40'),
-            'end_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-4-30 5:40'),
-            'itineraries_id' => 3,
-            'coaches_id' => 2,
+            'start_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-6-29 21:40'),
+            'end_time' => Carbon::createFromFormat('Y-m-d H:i', '2024-6-30 5:40'),
+            'itineraries_id' => 1,
+            'coaches_id' => 1,
         ]);
     }
 }

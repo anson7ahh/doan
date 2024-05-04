@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Enums;
 
@@ -11,6 +13,6 @@ use BenSampo\Enum\Enum;
  */
 final class InvoiceFreghtPayerEnum extends Enum
 {
-   public const sender = 'sender';
-    public const Receiver = 'Receiver';
+    public const sender = 'Người gửi';
+    public const Receiver = 'Người nhận';
 }

@@ -26,4 +26,8 @@ class Coach extends Model
     {
         return $this->hasmany('Ticket::class');
     }
+    public function Itinerary()
+    {
+        return $this->hasMany('Itinerary::class');
+    }
 }

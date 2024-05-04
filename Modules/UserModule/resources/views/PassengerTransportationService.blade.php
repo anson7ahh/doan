@@ -38,11 +38,6 @@
                 <input class=' flex justify-center items-end ' type="date" name="date" required
                     value="{{ \Carbon\Carbon::now()->toDateString() }}"
                     min="{{ \Carbon\Carbon::now()->toDateString() }}">
-
-
-
-
-
                 <button type="submit"
                     class=" text-black font-bold 
                     py-2 px-4 rounded focus:outline-none focus:shadow-outline">Tìm
@@ -55,25 +50,25 @@
             <div class="bg-blue-100">
                 <p class="text-center font-bold ">Danh sách các chuyến xe</p>
             </div>
-            <table class="w-full text-sm text-left  ">
-                <thead class="text-xs text-gray-700 uppercase   ">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">
+            <table class="w-full text-sm text-left   ">
+                <thead class="text-xs text-gray-700 uppercase  ">
+                    <tr class="flex flex-row justify-between px-10">
+                        <th class="tableItems ">
                             Điểm đi
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th class="tableItems">
                             Điểm đến
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="tableItems">
                             Thời gian khởi hành
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="tableItems">
                             Giá
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="tableItems">
                             Loại xe
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="tableItems">
 
                         </th>
                     </tr>
@@ -82,335 +77,156 @@
                     @if ($results->isEmpty())
                         <td>Không có kết quả tìm kiếm</td>
                     @else
-                        @foreach ($results as $result)
-                            <tr class="relative bg-gray-300 w-full">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                        @foreach ($results as $index => $result)
+                            <tr class=" bg-gray-300 w-full flex flex-col justify-between my-3 z-10  ">
+                            <tr class="flex flex-row justify-between px-10">
+                                <td class="tableItems font-medium text-gray-900 whitespace-nowrap ">
                                     {{ $result->starting_poin }}
-                                </th>
-                                <td class="px-6 py-4 text-gray-900">
+                                </td>
+                                <td class="tableItems text-gray-900">
                                     {{ $result->destination }}
                                 </td>
 
-                                <td class="px-6 py-4 text-gray-900">
+                                <td class="tableItems text-gray-900">
                                     {{ $result->start_time }}
                                 </td>
-                                <td class="px-6 py-4 text-gray-900">
+                                <td class="tableItems text-gray-900">
                                     {{ $result->price }}
                                 </td>
-                                <td class="px-6 py-4 text-gray-900">
+                                <td class="tableItems text-gray-900">
                                     {{ $result->vehicle_type }}
                                 </td>
-                                <td><button id='toggleCoachesDetail'
-                                        class="px-2 py-2 text-gray-900 cursor-pointer bg-red-300 rounded-lg ">
+                                <td class="tableItems"><button data-target="dropdown_{{ $index }}"
+                                        class="dropdownCoach
+                                         ">
                                         Chi tiết
                                     </button></td>
+                            </tr>
+                            <td id="dropdown_{{ $index }}" class="bg-blue-200 mt-20 rounded-lg z-10 hidden">
+                                @if ($result->vehicle_type === 'Thường' || $result->vehicle_type === 'regular')
+                                    <div class="flex flex-row gap-20 pt-2 px-10 justify-evenly pb-5">
+                                        <div>Tầng 1</div>
+                                        <div>Tầng 2</div>
+                                    </div>
+
+                                    <div class="flex flex-row gap-10">
+                                        @php
+                                            $cols = range('A', 'F');
+                                            $rows = range(1, 6);
+                                        @endphp
+
+                                        @foreach ($cols as $col)
+                                            <ul class="grid grid-cols-3 grid-rows-6 grid-flow-col gap-4 w-1/2">
+                                                @foreach ($rows as $row)
+                                                    <li>
+                                                        <p class="tiket" data-value="{{ $col . $row }}">
+                                                            {{ $col . $row }}</p>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <div class="flex flex-row gap-20 pt-4 justify-evenly pb-5">
+                                        <div>Tầng 1</div>
+                                        <div>Tầng 2</div>
+                                    </div>
+
+                                    <div class="flex flex-row">
+                                        <ul
+                                            class="px-20 grid grid-cols-4 grid-rows-7 grid-flow-col gap-4 w-full justify-center">
+                                            @php
+                                                $tickets = range('A', 'D');
+                                                $rows = range(1, 7);
+                                            @endphp
+                                            @foreach ($tickets as $ticket)
+                                                @foreach ($rows as $row)
+                                                    <li>
+                                                        <p class="tiket" data-value="{{ $ticket . $row }}">
+                                                            {{ $ticket . $row }}</p>
+                                                    </li>
+                                                @endforeach
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+
+                                @if (Auth::check())
+                                    <div class="pt-10 flex justify-center w-5/6 pb-5">
+                                        <button class='button-{{ $index }} bg-red-500 rounded-lg px-3'
+                                            data-coach-id = '{{ $result->id }}'
+                                            data-coach-itinerary_management = '{{ $result->itinerary_management_id }}'>Đặt
+                                            vé</button>
+                                    </div>
+                                @else
+                                    <div
+                                        class="pt-10
+                                            flex justify-center w-5/6 pb-5">
+                                        <button onclick="alert('Bạn chưa đăng nhập')"
+                                            class='bg-red-200 w-20 rounded-lg'>Đặt vé</button>
+                                    </div>
+                                @endif
+                            </td>
 
                             </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
-            <div id='targetToggleCoachesDetail' class="absolute  bg-blue-200 w-11/12 hidden  rounded-lg ">
-                @if ($result->vehicle_type === 'Thường' || $result->vehicle_type === 'regular')
-                    <div class="flex flex-row  gap-20 pt-2 justify-evenly pb-5">
-                        <div>Tầng 1</div>
-                        <div>Tầng 2</div>
-                    </div>
-
-                    <div class="flex flex-row gap-10">
-
-                        <ul class=" grid grid-cols-3 grid-rows-7 grid-flow-col gap-4 w-1/2">
-                            <li>
-                                <p class="tiket" data-value="A1">A1</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="A2">A2</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="A3">A3</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="A4">A4</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="A5">A5</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="A6">A6</p>
-                            </li>
-                            <li>
-                                <p class="bg-blue-300 rounded-lg w-20 text-center " data-value="A7">A7
-                                </p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="B1">B1</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="B2">B2</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="B3">B3</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="B4">B4</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="B5">B5</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="B6">B6</p>
-                            </li>
-                            <li>
-                                <p class="tiket " data-value="B7">B7</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="C1">C1</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="C2">C2</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="C3">C3</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="C4">C4</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="C5">C5</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="C6">C6</p>
-                            </li>
-                            <li>
-                                <p class="bg-blue-300 rounded-lg w-20 hidden" data-value="C7">C7</p>
-                            </li>
-                        </ul>
-
-                        <ul class=" grid grid-cols-3 grid-rows-7 grid-flow-col gap-4 w-1/2">
-                            <li>
-                                <p class="tiket" data-value="D1">D1</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="D2">D2</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="D3">D3</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="D4">D4</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="D5">D5</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="D6">D6</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="D7">D7</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="E1">E1</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="E2">E2</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="E3">E3</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="E4">E4</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="E5">E5</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="E6">E6</p>
-                            </li>
-                            <li>
-                                <p class="tiket hidden" data-value="E7">E7</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="F1">F1</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="F2">F2</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="F3">F3</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="F4">F4</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="F5">F5</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="F6">F6</p>
-                            </li>
-                            <li>
-                                <p class="tiket hidden" data-value="F7">F7</p>
-                            </li>
-
-                        </ul>
-                    </div>
-                @else
-                    <div class="flex flex-row gap-20 pt-4 justify-evenly pb-5">
-
-                        <div>Tầng 1</div>
-                        <div>Tầng 2</div>
-                    </div>
-                    <div class="flex flex-row">
-                        <ul class=" px-20 grid grid-cols-2 grid-rows-7 grid-flow-col gap-4 w-1/2 justify-center">
-                            <li>
-                                <p class="tiket" data-value="A1">A1</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="A2">A2</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="A3">A3</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="A4">A4</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="A5">A5</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="A6">A6</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="A7">A7</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="B1">B1</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="B2">B2</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="B3">B3</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="B4">B4</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="B5">B5</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="B6">B6</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="B7">B7</p>
-                            </li>
-                        </ul>
-                        <ul class=" grid grid-cols-2 grid-rows-7 grid-flow-col gap-4 w-1/2 justify-center">
-                            <li>
-                                <p class="tiket" data-value="D1">D1</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="D2">D2</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="D3">D3</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="D4">D4</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="D5">D5</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="D6">D6</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="D7">D7</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="E1">E1</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="E2">E2</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="E3">E3</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="E4">E4</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="E5">E5</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="E6">E6</p>
-                            </li>
-                            <li>
-                                <p class="tiket" data-value="E7">E7</p>
-                            </li>
-                    </div>
-                @endif
-                <div>
-                    @if (Auth::check())
-                        <div class="pt-10 flex justify-center w-5/6 pb-5 ">
-                            <button id='btn' class=' bg-red-200 w-20 rounded-lg'>Đặt vé</button>
-
-                        </div>
-                    @else
-                        <div class="pt-10 flex justify-center w-5/6  pb-5">
-                            <button onclick="alert(`Bạn chưa đăng nhập`)" class=' bg-red-200 w-20 rounded-lg '>Đặt
-                                vé</button>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-        @endforeach
-        @endif
 
         </div>
+
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </section>
 </body>
 <script>
     $(document).ready(function() {
-
-        $("#toggleCoachesDetail").click(function() {
-            $("#targetToggleCoachesDetail").toggle();
+        // Thêm sự kiện cho nút toggle-dropdown
+        $('.dropdownCoach').click(function() {
+            // Lấy data-target từ nút được click
+            var targetId = $(this).data('target');
+            // Toggle hiển thị của dropdown tương ứng
+            $('#' + targetId).toggle();
         });
+
+        // Xử lý sự kiện khi người dùng click vào phần tử p
         var selectedValues = [];
-
-        $("p").click(function() {
-
+        $("p.tiket").click(function() {
             var paragraphValue = $(this).data('value');
-
             var index = selectedValues.indexOf(paragraphValue);
-
+            // Kiểm tra xem ghế đã được chọn chưa và có thể chọn thêm ghế mới không
             if (index === -1) {
-
                 if (selectedValues.length < 4) {
-                    selectedValues.push($(this).data('value'));
-
+                    selectedValues.push(paragraphValue);
                     $(this).addClass('bg');
-
                 } else {
-                    alert('Bạn không thể đặt quá 4 vé');
+                    alert('Bạn không thể đặt quá 4 vé ');
                 }
             } else {
                 selectedValues.splice(index, 1);
-                $(this).removeClass('bg');
+                $(this).removeClass(' bg ');
             }
             console.log("Giá trị của p là: " + selectedValues);
-
-
         });
-        $('#btn').click(function() {
+        $('button[class^="button-"]').click(function() {
             // Gửi dữ liệu đã chọn lên server bằng AJAX
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
             if (selectedValues.length !== 0) {
-                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                console.log(selectedValues)
+                var coachId = $(this).data('coach-id');
+                var itinerary_management_id = $(this).data('coach-itinerary_management');
+                var url =
+                    "{{ route('CreateBookTicket', ['id' => ':coachId', 'itinerary_management_id' => ':itinerary_management_id']) }}";
+                console.log(itinerary_management_id, coachId)
                 $.ajax({
-                    type: 'POST',
+                    type: 'post',
                     headers: {
                         'X-CSRF-TOKEN': csrfToken,
                     },
-                    url: '{{ route('BookTicket.store', ['id' => $result->id]) }}',
+
+                    url: url.replace(':coachId', coachId).replace(':itinerary_management_id',
+                        itinerary_management_id),
+
                     data: {
                         selectedValues: selectedValues,
                     },
@@ -419,8 +235,7 @@
                         console.log(response);
                         alert('Bạn đã đặt vé thành công');
                     },
-                    error: function(xhr, status, error) {
-                        // Xử lý lỗi (nếu có)
+                    error: function(xhr, status, error) { // Xử lý lỗi (nếu có)
                         console.log(JSON.stringify(error));
                     }
 

@@ -15,7 +15,7 @@ class PriceTicketSeeder extends Seeder
     {
         DB::table('price_tickets')->insert([
             'price' => '400000',
-            'itineraries_id' => '3'
+            'itineraries_id' => '4'
         ]);
         DB::table('price_tickets')->insert([
             'price' => '350000',
@@ -23,7 +23,7 @@ class PriceTicketSeeder extends Seeder
         ]);
         DB::table('price_tickets')->insert([
             'price' => '350000',
-            'itineraries_id' => '4'
+            'itineraries_id' => '1'
         ]);
     }
 }

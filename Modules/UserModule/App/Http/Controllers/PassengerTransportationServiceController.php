@@ -10,23 +10,10 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-use Illuminate\Http\RedirectResponse;
-use function PHPUnit\Framework\isEmpty;
-
 class PassengerTransportationServiceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return view('usermodule::PassengerTransportationService');
-    }
-
 
     //  tìm kiếm vé xe
-
-
     public function SearchItinerary(Request $request)
 
     {
@@ -41,13 +28,15 @@ class PassengerTransportationServiceController extends Controller
                 ->join('itinerary_management', 'coaches.id', '=', 'itinerary_management.coaches_id')
                 ->join('itineraries', 'itinerary_management.itineraries_id', '=', 'itineraries.id')
                 ->join('price_tickets', 'itineraries.id', '=', 'price_tickets.itineraries_id')
+
                 ->select(
                     'coaches.vehicle_type',
                     'price_tickets.price',
                     'itinerary_management.start_time',
                     'itineraries.starting_poin',
                     'itineraries.destination',
-                    'coaches.id'
+                    'coaches.id',
+                    'itinerary_management.id AS itinerary_management_id'
                 )
                 ->where('coaches.service', '=', 'user')
                 ->get();
@@ -66,66 +55,70 @@ class PassengerTransportationServiceController extends Controller
                     'itinerary_management.start_time',
                     'itineraries.starting_poin',
                     'itineraries.destination',
-                    'coaches.id'
+                    'coaches.id',
+                    'itinerary_management.id AS itinerary_management_id'
                 )
                 ->where('coaches.service', '=', 'user')
                 ->where('itineraries.starting_poin', '=', $startingPoin)
                 ->where('itineraries.destination', '=', $destination)
                 ->whereDate('itinerary_management.start_time', '=', Carbon::parse($date))
                 ->get();
-
             return view('usermodule::PassengerTransportationService', ['results' => $results]);
         }
     }
 
 
-    public function ShowTicketBooked($id)
+    public function ShowTicketBooked($id, $itinerary_management_id)
     {
 
-        $datas = DB::table('coaches')
+        $data = DB::table('coaches')
             ->join('tickets', 'tickets.coaches_id', '=', 'coaches.id')
+            ->join('itinerary_management', 'itinerary_management.coaches_id', '=', 'coaches.id')
             ->select(
                 'tickets.seat_position'
             )
             ->where('coaches.id', '=', $id)
+            ->where('itinerary_management.id', '=', $itinerary_management_id)
             ->get();
-
-
         return response()->json([
             'status' => 200,
             'message' => 'success',
-            'datas' => $datas,
+            'data' => $data,
 
         ]);;
     }
 
 
-    public function BookTicket(Request $request, $id)
+    public function CreateBookTicket(Request $request, $id, $itinerary_management_id)
     {
         try {
             $user = Auth::user();
             $selectedValues = $request->input('selectedValues');
-            $user = Auth::guard('web')->user();
-
             foreach ($selectedValues as $value) {
-                DB::table('tickets')->insert([
-                    'seat_position' => $value,
-                    'coaches_id' => $id,
-                    'userName' => $user->name,
-                    'phoneNumber' => $user->phone_number,
-                    'user_id' => $user->id,
-                ]);
+                $tickets = DB::table('tickets')
+                    ->join('coaches', 'coaches.id', '=', 'tickets.coaches_id')
+                    ->join('itinerary_management', 'itinerary_management.coaches_id', '=', 'coaches.id')
+                    ->where('itinerary_management.id', '=', $itinerary_management_id)
+                    ->where('coaches.id', '=', $id)
+                    ->insert([
+                        'seat_position' => $value,
+                        'coaches_id' => $id,
+                        'userName' => $user->name,
+                        'phoneNumber' => $user->phone_number,
+                        'user_id' => $user->id,
+                    ]);
             }
-
-            DB::table('invoice_passengers')->insert([
-                'coaches_id' => $id,
-                'users_id' => $user->id,
-            ]);
+            DB::table('invoice_passengers')
+                ->insert(
+                    [
+                        'coaches_id' => $id,
+                        'user_id' => $user->id,
+                        'itinerary_management_id' => $itinerary_management_id
+                    ]
+                );
             return response()->json([
                 'status' => 200,
                 'message' => 'success',
-
-
             ]);
         } catch (\Exception $error) {
             return response()->json([

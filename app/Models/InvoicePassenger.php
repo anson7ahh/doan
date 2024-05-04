@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class InvoicePassenger extends Model
 {
     use HasFactory;
-    protected $fillable = ['status', 'payer', 'recipient_phone_number'];
+
 
     public function User()
     {
@@ -17,5 +17,9 @@ class InvoicePassenger extends Model
     public function Coach()
     {
         return $this->belongsTo('Coach::class');
+    }
+    public function ItineraryManagement()
+    {
+        return $this->belongsTo('ItineraryManagement::class');
     }
 }

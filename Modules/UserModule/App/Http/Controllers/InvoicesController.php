@@ -21,7 +21,7 @@ class InvoicesController extends Controller
 
 
 
-    public function store(Request $request)
+    public function storeInvoice(Request $request)
     {
         $user = Auth::guard('web')->user();
         if ($user) {
@@ -47,15 +47,30 @@ class InvoicesController extends Controller
                 ->where('tickets.user_id', '=', $user->id)
                 ->get();
 
-            return view('usermodule::Invoices', ['results' => $results]);
+            $datas = DB::table('invoice_freghts')
+                ->select(
+                    'id',
+                    'recipient_name',
+                    'recipient_phone_number',
+                    'sender_name',
+                    'sender_phone_number',
+                    'recipient_address',
+                    'sender_address'
+                )
+                ->where('user_id', $user->id)
+                ->orderBy('created_at', 'ASC')
+                ->get();
+
+            return view('usermodule::Invoices', ['results' => $results, 'datas' => $datas]);
         }
         return view('usermodule::Invoices', ['message' => 'Bạn cần đằng nhập để xem thêm thông tin ']);
     }
 
 
-    public function destroy($id)
+    public function destroytickets($id)
     {
         DB::table('tickets')->where('id', $id)->delete();
+        DB::table('invoice_freghts')->where('id', $id)->delete();
         return back();
     }
 }

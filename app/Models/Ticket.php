@@ -10,6 +10,8 @@ class Ticket extends Model
     use HasFactory;
     protected $fillable = [
         'seat_position', //vi tri ngoi
+        'created_at',
+        'updated_at'
 
     ];
 

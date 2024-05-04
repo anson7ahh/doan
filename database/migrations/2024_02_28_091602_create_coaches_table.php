@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('service')->nullable(); //dịch vụ
             $table->string('vehicle_type'); // loai xe
             $table->integer('sum_ticket');
-
-
             $table->timestamps();
         });
     }

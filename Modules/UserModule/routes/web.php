@@ -23,15 +23,17 @@ Route::resource('/', UserModuleController::class)->names('usermodule.index');
 
 
 Route::prefix('Dich-vu-van-tai-hanh-khach')->group(function () {
-    Route::get('/', [PassengerTransportationServiceController::class, 'index']);
+
     Route::get('/', [PassengerTransportationServiceController::class, 'SearchItinerary'])->name('SearchItinerary');
-    Route::post('/{id}', [PassengerTransportationServiceController::class, 'BookTicket'])->name('BookTicket.store');
-    Route::get('/{id}', [PassengerTransportationServiceController::class, 'ShowTicketBooked'])->name('ShowTicketBooked');
+    Route::post('/{id}/{itinerary_management_id}', [PassengerTransportationServiceController::class, 'CreateBookTicket'])->name('CreateBookTicket');
+    Route::get('/{id}/{itinerary_management_id}', [PassengerTransportationServiceController::class, 'ShowTicketBooked'])->name('ShowTicketBooked');
 });
-Route::group([], function () {
-    Route::resource('/Dich-vu-van-tai-hang-hoa', FreightTransportationServicesController::class)->names('FreightTransportationServices.index');
+Route::prefix('/Dich-vu-van-tai-hang-hoa')->group(function () {
+    Route::get('/', [FreightTransportationServicesController::class, 'index']);
+    Route::post('/', [FreightTransportationServicesController::class, 'store'])->name('FreightTransportationServices.store');
 });
 Route::prefix('/hoa-don')->group(function () {
-    Route::get('/', [InvoicesController::class, 'store'])->name('invoices.store');
-    Route::get('/{id}', [InvoicesController::class, 'destroy'])->name('invoices.destroy');
+    Route::get('/', [InvoicesController::class, 'storeInvoice']);
+
+    Route::get('/{id}', [InvoicesController::class, 'destroytickets'])->name('invoices.destroy');
 });

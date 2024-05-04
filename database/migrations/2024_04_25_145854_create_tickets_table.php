@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('seat_position')->nullable(); //vị trí chố ngồi
             $table->string('userName');
             $table->integer('phoneNumber');
-
+            $table->timestamps();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')
                 ->onUpdate('cascade');
@@ -24,8 +24,6 @@ return new class extends Migration
 
             $table->foreign('coaches_id')->references('id')->on('coaches')->onDelete('cascade')
                 ->onUpdate('cascade');
-
-            $table->timestamps();
         });
     }
 

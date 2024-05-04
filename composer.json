@@ -10,6 +10,7 @@
     "require": {
         "php": "^8.1",
         "bensampo/laravel-enum": "^6.10",
+        "blade-ui-kit/blade-ui-kit": "^0.6.2",
         "guzzlehttp/guzzle": "^7.8",
         "khatabwedaa/blade-css-icons": "^1.4",
         "laravel/breeze": "^1.29",
@@ -19,6 +20,7 @@
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.4",
         "nwidart/laravel-modules": "^10.0",
+        "realrashid/sweet-alert": "^7.1",
         "spatie/laravel-permission": "^6.4"
     },
     "require-dev": {

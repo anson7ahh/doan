@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\AuthModule\App\Http\Controllers\LoginController;
-use Modules\AuthModule\App\Http\Controllers\LogoutController;
-use Modules\AuthModule\App\Http\Controllers\RegisterController;
-use Modules\AuthModule\App\Http\Controllers\AuthModuleController;
-use Modules\AuthModule\App\Http\Controllers\ForgotPasswordController;
+use Modules\AuthModule\App\Http\Controllers\User\LoginController;
+use Modules\AuthModule\App\Http\Controllers\User\LogoutController;
+use Modules\AuthModule\App\Http\Controllers\User\RegisterController;
+use Modules\AuthModule\App\Http\Controllers\User\AuthModuleController;
+use Modules\AuthModule\App\Http\Controllers\User\ForgotPasswordController;
 
 /*
 |--------------------------------------------------------------------------

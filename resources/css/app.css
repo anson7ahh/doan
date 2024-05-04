@@ -23,3 +23,12 @@ input::-webkit-inner-spin-button {
 .bg{
     @apply bg-gray-300;
 }
+.dropdownCoach{
+    @apply  px-2 py-2 text-gray-900 cursor-pointer bg-red-300 rounded-lg;
+}
+.buttonBookTiket{
+    @apply bg-red-200 w-20 rounded-lg;
+}
+.tableItems{
+    @apply w-1/6 justify-center;
+}
