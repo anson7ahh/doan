@@ -17,11 +17,12 @@ return new class extends Migration
             $table->unsignedBigInteger('coaches_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('itinerary_management_id');
-
+            $table->unsignedBigInteger('ticket_id');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')
                 ->onUpdate('cascade');
-
+            $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade')
+                ->onUpdate('cascade');
             $table->foreign('coaches_id')->references('id')->on('coaches')->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->foreign('itinerary_management_id')->references('id')->on('itinerary_management')->onDelete('cascade')

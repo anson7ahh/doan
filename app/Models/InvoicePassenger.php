@@ -22,4 +22,8 @@ class InvoicePassenger extends Model
     {
         return $this->belongsTo('ItineraryManagement::class');
     }
+    public function Ticket()
+    {
+        return $this->belongsTo('Ticket::class');
+    }
 }

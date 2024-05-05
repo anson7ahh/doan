@@ -153,7 +153,7 @@
 
                                 @if (Auth::check())
                                     <div class="pt-10 flex justify-center w-5/6 pb-5">
-                                        <button class='button-{{ $index }} bg-red-500 rounded-lg px-3'
+                                        <button class='button-{{ $index }}  bg-red-500 rounded-lg px-3'
                                             data-coach-id = '{{ $result->id }}'
                                             data-coach-itinerary_management = '{{ $result->itinerary_management_id }}'>Đặt
                                             vé</button>
@@ -185,14 +185,20 @@
         $('.dropdownCoach').click(function() {
             // Lấy data-target từ nút được click
             var targetId = $(this).data('target');
-            // Toggle hiển thị của dropdown tương ứng
+            $('[id^="dropdown_"]').not('#' + targetId).hide();
             $('#' + targetId).toggle();
+
         });
+
+
+
+        // Hàm resetSelectedValues để reset selectedValues về một mảng rỗng
 
         // Xử lý sự kiện khi người dùng click vào phần tử p
         var selectedValues = [];
         $("p.tiket").click(function() {
             var paragraphValue = $(this).data('value');
+
             var index = selectedValues.indexOf(paragraphValue);
             // Kiểm tra xem ghế đã được chọn chưa và có thể chọn thêm ghế mới không
             if (index === -1) {
@@ -209,6 +215,7 @@
             console.log("Giá trị của p là: " + selectedValues);
         });
         $('button[class^="button-"]').click(function() {
+
             // Gửi dữ liệu đã chọn lên server bằng AJAX
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             if (selectedValues.length !== 0) {
@@ -217,7 +224,7 @@
                 var itinerary_management_id = $(this).data('coach-itinerary_management');
                 var url =
                     "{{ route('CreateBookTicket', ['id' => ':coachId', 'itinerary_management_id' => ':itinerary_management_id']) }}";
-                console.log(itinerary_management_id, coachId)
+
                 $.ajax({
                     type: 'post',
                     headers: {

@@ -3,9 +3,11 @@
 namespace Modules\UserModule\App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Coach;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\InvoicePassenger;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -24,8 +26,7 @@ class PassengerTransportationServiceController extends Controller
 
         if (!$startingPoin && !$date && !$destination) {
 
-            $results = DB::table('coaches')
-                ->join('itinerary_management', 'coaches.id', '=', 'itinerary_management.coaches_id')
+            $results = Coach::join('itinerary_management', 'coaches.id', '=', 'itinerary_management.coaches_id')
                 ->join('itineraries', 'itinerary_management.itineraries_id', '=', 'itineraries.id')
                 ->join('price_tickets', 'itineraries.id', '=', 'price_tickets.itineraries_id')
 
@@ -45,8 +46,7 @@ class PassengerTransportationServiceController extends Controller
         } else {
 
 
-            $results = DB::table('coaches')
-                ->join('itinerary_management', 'coaches.id', '=', 'itinerary_management.coaches_id')
+            $results = Coach::join('itinerary_management', 'coaches.id', '=', 'itinerary_management.coaches_id')
                 ->join('itineraries', 'itinerary_management.itineraries_id', '=', 'itineraries.id')
                 ->join('price_tickets', 'itineraries.id', '=', 'price_tickets.itineraries_id')
                 ->select(
@@ -71,8 +71,7 @@ class PassengerTransportationServiceController extends Controller
     public function ShowTicketBooked($id, $itinerary_management_id)
     {
 
-        $data = DB::table('coaches')
-            ->join('tickets', 'tickets.coaches_id', '=', 'coaches.id')
+        $data = Coach::join('tickets', 'tickets.coaches_id', '=', 'coaches.id')
             ->join('itinerary_management', 'itinerary_management.coaches_id', '=', 'coaches.id')
             ->select(
                 'tickets.seat_position'
@@ -95,27 +94,25 @@ class PassengerTransportationServiceController extends Controller
             $user = Auth::user();
             $selectedValues = $request->input('selectedValues');
             foreach ($selectedValues as $value) {
-                $tickets = DB::table('tickets')
-                    ->join('coaches', 'coaches.id', '=', 'tickets.coaches_id')
+                $ticketId = Ticket::join('coaches', 'coaches.id', '=', 'tickets.coaches_id')
                     ->join('itinerary_management', 'itinerary_management.coaches_id', '=', 'coaches.id')
                     ->where('itinerary_management.id', '=', $itinerary_management_id)
                     ->where('coaches.id', '=', $id)
-                    ->insert([
+                    ->insertGetId([
                         'seat_position' => $value,
                         'coaches_id' => $id,
                         'userName' => $user->name,
                         'phoneNumber' => $user->phone_number,
                         'user_id' => $user->id,
                     ]);
+
+                InvoicePassenger::insert([
+                    'ticket_id' => $ticketId, // Sử dụng $ticketId thay vì $tickets->id
+                    'coaches_id' => $id,
+                    'user_id' => $user->id,
+                    'itinerary_management_id' => $itinerary_management_id
+                ]);
             }
-            DB::table('invoice_passengers')
-                ->insert(
-                    [
-                        'coaches_id' => $id,
-                        'user_id' => $user->id,
-                        'itinerary_management_id' => $itinerary_management_id
-                    ]
-                );
             return response()->json([
                 'status' => 200,
                 'message' => 'success',

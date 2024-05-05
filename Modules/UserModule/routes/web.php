@@ -26,7 +26,6 @@ Route::prefix('Dich-vu-van-tai-hanh-khach')->group(function () {
 
     Route::get('/', [PassengerTransportationServiceController::class, 'SearchItinerary'])->name('SearchItinerary');
     Route::post('/{id}/{itinerary_management_id}', [PassengerTransportationServiceController::class, 'CreateBookTicket'])->name('CreateBookTicket');
-    Route::get('/{id}/{itinerary_management_id}', [PassengerTransportationServiceController::class, 'ShowTicketBooked'])->name('ShowTicketBooked');
 });
 Route::prefix('/Dich-vu-van-tai-hang-hoa')->group(function () {
     Route::get('/', [FreightTransportationServicesController::class, 'index']);
