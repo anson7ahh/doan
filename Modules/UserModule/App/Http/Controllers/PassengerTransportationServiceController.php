@@ -41,8 +41,14 @@ class PassengerTransportationServiceController extends Controller
                 )
                 ->where('coaches.service', '=', 'user')
                 ->get();
-
-            return view('usermodule::PassengerTransportationService', ['results' => $results]);
+            $ticketBookes = InvoicePassenger::join('tickets', 'tickets.id', '=', 'invoice_passengers.ticket.id')
+                ->select(
+                    'invoice_passengers.coches_id',
+                    'invoice_passengers.itinerary_management_id',
+                    'tickets.seat_position'
+                )
+                ->get();
+            return view('usermodule::PassengerTransportationService', ['results' => $results, 'ticketBookes' => $ticketBookes]);
         } else {
 
 
@@ -63,7 +69,16 @@ class PassengerTransportationServiceController extends Controller
                 ->where('itineraries.destination', '=', $destination)
                 ->whereDate('itinerary_management.start_time', '=', Carbon::parse($date))
                 ->get();
-            return view('usermodule::PassengerTransportationService', ['results' => $results]);
+
+
+            $ticketBookes = InvoicePassenger::join('tickets', 'tickets.id', '=', 'invoice_passengers.ticket.id')
+                ->select(
+                    'invoice_passengers.coches_id',
+                    'invoice_passengers.itinerary_management_id',
+                    'tickets.seat_position'
+                )
+                ->get();
+            return view('usermodule::PassengerTransportationService', ['results' => $results, 'ticketBookes' => $ticketBookes]);
         }
     }
 

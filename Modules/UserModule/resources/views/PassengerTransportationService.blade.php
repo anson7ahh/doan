@@ -136,14 +136,14 @@
                                         <ul
                                             class="px-20 grid grid-cols-4 grid-rows-7 grid-flow-col gap-4 w-full justify-center">
                                             @php
-                                                $tickets = range('A', 'D');
+                                                $cols = range('A', 'D');
                                                 $rows = range(1, 7);
                                             @endphp
-                                            @foreach ($tickets as $ticket)
+                                            @foreach ($cols as $col)
                                                 @foreach ($rows as $row)
                                                     <li>
-                                                        <p class="tiket" data-value="{{ $ticket . $row }}">
-                                                            {{ $ticket . $row }}</p>
+                                                        <p class="tiket" data-value="{{ $col . $row }}">
+                                                            {{ $col . $row }}</p>
                                                     </li>
                                                 @endforeach
                                             @endforeach
