@@ -30,5 +30,8 @@ input::-webkit-inner-spin-button {
     @apply bg-red-200 w-20 rounded-lg;
 }
 .tableItems{
-    @apply w-1/6 justify-center;
+    @apply w-1/6 justify-center text-gray-900;
+}
+tiketsBooked{
+    @apply bg-red-300 rounded-lg w-20 text-center cursor-not-allowed;
 }

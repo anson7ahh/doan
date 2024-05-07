@@ -18,7 +18,7 @@
     <section class="pt-[120px]">
         @if (Auth::check())
             <div>
-                <div>Danh sách hóa đơn đã đặt</div>
+
                 @foreach ($results as $result)
                     <div class="flex flex-col bg-gray-100 rounded-lg mt-10 px-10 pb-10 ">
                         <div class='mt-6 font underline'>Hóa đơn đặt vé</div>
@@ -47,27 +47,32 @@
 
             @foreach ($datas as $data)
                 <div class="flex flex-col bg-gray-100 rounded-lg mt-10 px-10 pb-10 ">
-                    <div class="text-center pt-5">Danh sách hóa đơn giao hàng đã đặt</div>
-                    <div class="flex flex-row  justify-around">
-                        <div class="flex flex-col gap-3  ">
-                            <p> <span class=" font-bold">Tên người nhận:</span>{{ $data->recipient_name }}</p>
-                            <p><span class=" font-bold">Số điện thoại người
-                                    nhận:</span>{{ $data->recipient_phone_number }}
-                            </p>
-                            <p><span class=" font-bold">Địa chỉ người nhận:</span>{{ $data->recipient_address }}</p>
-                        </div>
-                        <div>
+                    <div class=" underline pt-5">Danh sách hóa đơn giao hàng đã đặt</div>
+                    <div class="flex flex-row gap-20">
+                        <div class="flex flex-row  justify-between gap-20">
+                            <div class="flex flex-col gap-3  ">
+                                <p> <span class=" font-bold">Tên người nhận:</span>{{ $data->recipient_name }}</p>
+                                <p><span class=" font-bold">Số điện thoại người
+                                        nhận:</span>{{ $data->recipient_phone_number }}
+                                </p>
+                                <p><span class=" font-bold">Địa chỉ người nhận:</span>{{ $data->recipient_address }}
+                                </p>
+                            </div>
+                            <div class="flex flex-col gap-3">
 
-                            <p><span class=" font-bold">người gửi:</span>{{ $data->sender_name }}</p>
-                            <p><span class=" font-bold">Số điện thoại người gửi :</span>
-                                {{ $data->sender_phone_number }}</p>
-                            <p><span class=" font-bold">Địa chỉ người gửi:</span>{{ $data->sender_address }} </p>
-                        </div>
+                                <p><span class="font-bold">
+                                        người gửi:</span>{{ $data->sender_name }}</p>
+                                <p><span class=" font-bold">Số điện thoại người gửi :</span>
+                                    {{ $data->sender_phone_number }}</p>
+                                <p><span class=" font-bold">Địa chỉ người gửi:</span>{{ $data->sender_address }} </p>
+                            </div>
 
-                    </div>
-                    <div class="flex justify-center">
-                        <a class="text-red-500 font-bold pl-10" onclick=" return confirm('ban co chac chan muon xoa')"
-                            href=" {{ route('invoices.destroy', ['id' => $data->id]) }}">Hủy hóa đơn</a>
+                        </div>
+                        <div class="flex justify-center">
+                            <a class="text-red-500 font-bold pl-10 flex items-center"
+                                onclick=" return confirm('ban co chac chan muon xoa')"
+                                href=" {{ route('invoices.destroy', ['id' => $data->id]) }}">Hủy hóa đơn</a>
+                        </div>
                     </div>
                 </div>
             @endforeach

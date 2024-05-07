@@ -27,3 +27,15 @@
     {{-- Vite JS --}}
     {{-- {{ module_vite('build-usermodule', 'resources/assets/js/app.js') }} --}}
 </body>
+{{-- @foreach ($ticketsBooked as $ticketBooked)
+ {
+ @if ($ticketBooked->itinerary_management_id === $result->itinerary_management_id && $ticketBooked->coaches_id === $result->id && $ticketBooked->seat_position === $col . $row)
+{
+<p class="tiket" data-value=" $col . $row "></p>
+}
+@else{
+<p class="tiketsBooked" data-value=" $col . $row "></p>
+}
+}
+ @endif
+ @endforeach --}}

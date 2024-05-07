@@ -29,7 +29,6 @@ class PassengerTransportationServiceController extends Controller
             $results = Coach::join('itinerary_management', 'coaches.id', '=', 'itinerary_management.coaches_id')
                 ->join('itineraries', 'itinerary_management.itineraries_id', '=', 'itineraries.id')
                 ->join('price_tickets', 'itineraries.id', '=', 'price_tickets.itineraries_id')
-
                 ->select(
                     'coaches.vehicle_type',
                     'price_tickets.price',
@@ -41,14 +40,15 @@ class PassengerTransportationServiceController extends Controller
                 )
                 ->where('coaches.service', '=', 'user')
                 ->get();
-            $ticketBookes = InvoicePassenger::join('tickets', 'tickets.id', '=', 'invoice_passengers.ticket.id')
+            $ticketsBooked = InvoicePassenger::join('tickets', 'tickets.id', '=', 'invoice_passengers.ticket_id')
                 ->select(
-                    'invoice_passengers.coches_id',
-                    'invoice_passengers.itinerary_management_id',
+                    'invoice_passengers.coaches_id',
+                    'invoice_passengers.itinerary_management_id as itinerary_management_id ',
                     'tickets.seat_position'
                 )
                 ->get();
-            return view('usermodule::PassengerTransportationService', ['results' => $results, 'ticketBookes' => $ticketBookes]);
+
+            return view('usermodule::PassengerTransportationService', ['results' => $results, 'ticketsBooked' => $ticketsBooked]);
         } else {
 
 
@@ -71,36 +71,38 @@ class PassengerTransportationServiceController extends Controller
                 ->get();
 
 
-            $ticketBookes = InvoicePassenger::join('tickets', 'tickets.id', '=', 'invoice_passengers.ticket.id')
+            $ticketsBooked = InvoicePassenger::join('tickets', 'tickets.id', '=', 'invoice_passengers.ticket.id')
                 ->select(
                     'invoice_passengers.coches_id',
                     'invoice_passengers.itinerary_management_id',
                     'tickets.seat_position'
                 )
                 ->get();
-            return view('usermodule::PassengerTransportationService', ['results' => $results, 'ticketBookes' => $ticketBookes]);
+            return view('usermodule::PassengerTransportationService', ['results' => $results, 'ticketsBooked' => $ticketsBooked]);
         }
     }
 
 
-    public function ShowTicketBooked($id, $itinerary_management_id)
-    {
+    // public function ShowTicketBooked($id, $itinerary_management_id)
+    // {
 
-        $data = Coach::join('tickets', 'tickets.coaches_id', '=', 'coaches.id')
-            ->join('itinerary_management', 'itinerary_management.coaches_id', '=', 'coaches.id')
-            ->select(
-                'tickets.seat_position'
-            )
-            ->where('coaches.id', '=', $id)
-            ->where('itinerary_management.id', '=', $itinerary_management_id)
-            ->get();
-        return response()->json([
-            'status' => 200,
-            'message' => 'success',
-            'data' => $data,
 
-        ]);;
-    }
+    //     $ticketsBooked = InvoicePassenger::join('tickets', 'tickets.id', '=', 'invoice_passengers.ticket.id')
+    //         ->select(
+    //             'invoice_passengers.coches_id',
+    //             'invoice_passengers.itinerary_management_id',
+    //             'tickets.seat_position'
+    //         )
+    //         ->where('invoice_passengers.coches_id', '=', $id)
+    //         ->where('invoice_passengers.itinerary_management_id', '=', $itinerary_management_id)
+    //         ->get();
+    //     return response()->json([
+    //         'status' => 200,
+    //         'message' => 'success',
+    //         'data' => $ticketsBooked,
+
+    //     ]);;
+    // }
 
 
     public function CreateBookTicket(Request $request, $id, $itinerary_management_id)
@@ -119,10 +121,12 @@ class PassengerTransportationServiceController extends Controller
                         'userName' => $user->name,
                         'phoneNumber' => $user->phone_number,
                         'user_id' => $user->id,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now()
                     ]);
 
                 InvoicePassenger::insert([
-                    'ticket_id' => $ticketId, // Sử dụng $ticketId thay vì $tickets->id
+                    'ticket_id' => $ticketId,
                     'coaches_id' => $id,
                     'user_id' => $user->id,
                     'itinerary_management_id' => $itinerary_management_id

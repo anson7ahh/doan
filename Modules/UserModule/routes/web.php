@@ -33,6 +33,5 @@ Route::prefix('/Dich-vu-van-tai-hang-hoa')->group(function () {
 });
 Route::prefix('/hoa-don')->group(function () {
     Route::get('/', [InvoicesController::class, 'storeInvoice']);
-
     Route::get('/{id}', [InvoicesController::class, 'destroytickets'])->name('invoices.destroy');
 });

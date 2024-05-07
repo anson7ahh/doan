@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\AdminModule\App\Http\Controllers\AdminModuleController;
+use Modules\AdminModule\App\Http\Controllers\AdminCoachManagerController;
+use Modules\AdminModule\App\Http\Controllers\AdminTicketManagerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,14 @@ use Modules\AdminModule\App\Http\Controllers\AdminModuleController;
 |
 */
 
-Route::group([], function () {
-    Route::resource('adminmodule', AdminModuleController::class)->names('adminmodule');
+Route::prefix('/admin')->group(function () {
+
+    Route::get('', [AdminTicketManagerController::class, 'index']);
+});
+
+Route::prefix('/admin/quan-ly-xe')->group(function () {
+    Route::get('/', [AdminCoachManagerController::class, 'index'])->name('AdminCoachManager.index');
+    Route::post('/', [AdminCoachManagerController::class, 'store'])->name('AdminCoachManager.strore');
+    Route::get('/{id}', [AdminCoachManagerController::class, 'destroy'])->name('AdminCoachManager.destroy');
+    Route::put('/{id}', [AdminCoachManagerController::class, 'edit'])->name('AdminCoachManager.edit');
 });

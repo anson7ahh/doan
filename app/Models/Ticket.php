@@ -14,7 +14,11 @@ class Ticket extends Model
         'updated_at'
 
     ];
+    protected $dates  = [
+        'created_at',
+        'updated_at',
 
+    ];
     public function Coach()
     {
         return $this->belongsTo('Coach::class');

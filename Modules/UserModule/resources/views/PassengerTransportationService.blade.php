@@ -103,7 +103,7 @@
                                     </button></td>
                             </tr>
                             <td id="dropdown_{{ $index }}" class="bg-blue-200 mt-20 rounded-lg z-10 hidden">
-                                @if ($result->vehicle_type === 'Thường' || $result->vehicle_type === 'regular')
+                                @if ($result->vehicle_type == 'Thường')
                                     <div class="flex flex-row gap-20 pt-2 px-10 justify-evenly pb-5">
                                         <div>Tầng 1</div>
                                         <div>Tầng 2</div>
@@ -136,14 +136,14 @@
                                         <ul
                                             class="px-20 grid grid-cols-4 grid-rows-7 grid-flow-col gap-4 w-full justify-center">
                                             @php
-                                                $cols = range('A', 'D');
-                                                $rows = range(1, 7);
+                                                $cols_vip = range('A', 'D');
+                                                $rows_vip = range(1, 7);
                                             @endphp
-                                            @foreach ($cols as $col)
-                                                @foreach ($rows as $row)
+                                            @foreach ($cols_vip as $col_vip)
+                                                @foreach ($rows_vip as $row_vip)
                                                     <li>
-                                                        <p class="tiket" data-value="{{ $col . $row }}">
-                                                            {{ $col . $row }}</p>
+                                                        <p class="tiket" data-value="{{ $col_vip . $row_vip }}">
+                                                            {{ $col_vip . $row_vip }}</p>
                                                     </li>
                                                 @endforeach
                                             @endforeach
@@ -182,20 +182,24 @@
 <script>
     $(document).ready(function() {
         // Thêm sự kiện cho nút toggle-dropdown
+        var selectedValues = [];
         $('.dropdownCoach').click(function() {
             // Lấy data-target từ nút được click
             var targetId = $(this).data('target');
             $('[id^="dropdown_"]').not('#' + targetId).hide();
+            if ($('[id^="dropdown_"]').not('#' + targetId).hide()) {
+                selectedValues.splice(0, selectedValues.length)
+            }
             $('#' + targetId).toggle();
+            $('#' + targetId).on('hide', function() {
+
+
+            });
 
         });
 
-
-
-        // Hàm resetSelectedValues để reset selectedValues về một mảng rỗng
-
         // Xử lý sự kiện khi người dùng click vào phần tử p
-        var selectedValues = [];
+
         $("p.tiket").click(function() {
             var paragraphValue = $(this).data('value');
 
@@ -242,7 +246,7 @@
                         console.log(response);
                         alert('Bạn đã đặt vé thành công');
                     },
-                    error: function(xhr, status, error) { // Xử lý lỗi (nếu có)
+                    error: function(xhr, status, error) {
                         console.log(JSON.stringify(error));
                     }
 

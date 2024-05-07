@@ -36,20 +36,23 @@ class FreightTransportationServicesController extends Controller
                 ->withErrors($validator->errors())
                 ->withInput();
         }
+        if ($user) {
+            $InvoiceFreght = new InvoiceFreght();
+            $InvoiceFreght->weight = $request->input('weight');
+            $InvoiceFreght->recipient_name = $request->input('recipient_name');
+            $InvoiceFreght->recipient_address = $request->input('recipient_address');
+            $InvoiceFreght->recipient_phone_number = $request->input('recipient_phone_number');
+            $InvoiceFreght->payer = $request->input('payer');
+            $InvoiceFreght->sender_name = $request->input('sender_name');
+            $InvoiceFreght->sender_phone_number = $request->input('sender_phone_number');
+            $InvoiceFreght->sender_address = $request->input('sender_address');
+            $InvoiceFreght->user_id = $user->id;
+            $InvoiceFreght->save();
+            session()->flash('alert', 'Settings saved successfully.');
 
-        $InvoiceFreght = new InvoiceFreght();
-        $InvoiceFreght->weight = $request->input('weight');
-        $InvoiceFreght->recipient_name = $request->input('recipient_name');
-        $InvoiceFreght->recipient_address = $request->input('recipient_address');
-        $InvoiceFreght->recipient_phone_number = $request->input('recipient_phone_number');
-        $InvoiceFreght->payer = $request->input('payer');
-        $InvoiceFreght->sender_name = $request->input('sender_name');
-        $InvoiceFreght->sender_phone_number = $request->input('sender_phone_number');
-        $InvoiceFreght->sender_address = $request->input('sender_address');
-        $InvoiceFreght->user_id = $user->id;
-        $InvoiceFreght->save();
-        session()->flash('alert', 'Settings saved successfully.');
-
-        return redirect()->back()->with('success', 'Bạn đã tạo hóa đơn giao hang thành công.');
+            return redirect()->back()->with('success', 'Bạn đã tạo hóa đơn giao hang thành công.');
+        } else {
+            return back();
+        }
     }
 }
