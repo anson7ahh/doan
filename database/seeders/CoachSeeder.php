@@ -20,7 +20,7 @@ class CoachSeeder extends Seeder
         DB::table('coaches')->insert([
             'license_plate' => '37a-1',
             'coach_maintenance_date' => '2015-04-04',
-            'service' => 'freights',
+            'service' => 'Hàng hóa',
             'vehicle_type' => 'Thường',
             'sum_ticket' => '34',
         ]);
@@ -30,14 +30,14 @@ class CoachSeeder extends Seeder
         DB::table('coaches')->insert([
             'license_plate' => '37a-2',
             'coach_maintenance_date' => '2015-04-04',
-            'service' => 'user',
+            'service' => 'Người',
             'vehicle_type' => 'vip',
             'sum_ticket' => '28'
         ]);
         DB::table('coaches')->insert([
             'license_plate' => '37a-3',
             'coach_maintenance_date' => '2015-04-04',
-            'service' => 'user',
+            'service' => 'Người',
             'vehicle_type' => 'Thường',
             'sum_ticket' => '34'
 

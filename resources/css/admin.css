@@ -10,3 +10,6 @@ input::-webkit-inner-spin-button {
 .CoachTableItems{
     @apply w-[80px] flex justify-center text-gray-900 text-sm items-center;
 }
+.ItenerarytableItems{
+    @apply   text-gray-900 gap-5 text-start w-1/6;
+}

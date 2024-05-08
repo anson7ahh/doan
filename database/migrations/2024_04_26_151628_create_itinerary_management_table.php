@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->DATETIME('start_time')->format('Y-m-d H:i'); //thời gian đi
             $table->DATETIME('end_time')->format('Y-m-d H:i'); //thời gian tới
+            $table->bigInteger('price')->unsigned();
             $table->unsignedBigInteger('coaches_id');
             $table->unsignedBigInteger('itineraries_id');
 

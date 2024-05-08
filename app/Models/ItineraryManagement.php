@@ -12,6 +12,7 @@ class ItineraryManagement extends Model
     protected $dates  = [
         'start_time',
         'end_time',
+        'price'
 
     ];
     public function Itinerary()

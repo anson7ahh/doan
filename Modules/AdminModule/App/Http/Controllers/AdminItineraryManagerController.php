@@ -2,10 +2,14 @@
 
 namespace Modules\AdminModule\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Coach;
+use App\Models\Itinerary;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\ItineraryManagement;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Validator;
 
 class AdminItineraryManagerController extends Controller
 {
@@ -14,54 +18,56 @@ class AdminItineraryManagerController extends Controller
      */
     public function index()
     {
-        return view('adminmodule::index');
+        $ItineraryManagements = ItineraryManagement::join(
+            'coaches',
+            'itinerary_management.coaches_id',
+            '=',
+            'coaches.id'
+        )->join('itineraries', 'itinerary_management.itineraries_id', '=', 'itineraries.id')
+            ->select(
+                'itinerary_management.id',
+                'coaches.license_plate',
+                'itinerary_management.price',
+                'itinerary_management.start_time',
+                'itinerary_management.end_time',
+                'itineraries.starting_poin',
+                'itineraries.destination',
+            )->orderby('itinerary_management.created_at', 'asc')
+            ->get();
+        $coaches = Coach::select('license_plate')->where('service', '=', 'Người')->get();
+
+        return view('adminmodule::AdminItineraryManager', ['ItineraryManagements' => $ItineraryManagements, 'coaches' => $coaches]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+
+    public function store(Request $request)
     {
-        return view('adminmodule::create');
+
+        $ItineraryManagement = new ItineraryManagement();
+        $ItineraryManagement->price = $request->price;
+        $ItineraryManagement->start_time = $request->start_time;
+        $ItineraryManagement->end_time = $request->end_time;
+
+        $coach = Coach::where('license_plate', $request->license_plate)->first();
+        $Itinerary = Itinerary::where('starting_poin', $request->starting_poin)
+            ->where('destination', $request->destination)
+            ->first();
+        if ($coach && $Itinerary) {
+            $ItineraryManagement->coaches_id = $coach->id;
+            $ItineraryManagement->itineraries_id = $Itinerary->id;
+            $ItineraryManagement->save();
+            return back();
+        }
+        return back();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
-    {
-        //
-    }
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('adminmodule::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('adminmodule::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
-        //
+        ItineraryManagement::where('id', $id)->delete();
+
+        return back();
     }
 }

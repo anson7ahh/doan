@@ -26,45 +26,48 @@ class PassengerTransportationServiceController extends Controller
 
         if (!$startingPoin && !$date && !$destination) {
 
-            $results = Coach::join('itinerary_management', 'coaches.id', '=', 'itinerary_management.coaches_id')
-                ->join('itineraries', 'itinerary_management.itineraries_id', '=', 'itineraries.id')
-                ->join('price_tickets', 'itineraries.id', '=', 'price_tickets.itineraries_id')
+            $results = DB::table('itinerary_management')
+                ->join('coaches', 'itinerary_management.coaches_id', '=', 'coaches.id')
+                ->join('itineraries', 'itineraries.id', '=', 'itinerary_management.itineraries_id')
+
                 ->select(
                     'coaches.vehicle_type',
-                    'price_tickets.price',
+                    'itinerary_management.price',
                     'itinerary_management.start_time',
                     'itineraries.starting_poin',
                     'itineraries.destination',
                     'coaches.id',
-                    'itinerary_management.id AS itinerary_management_id'
+                    'itinerary_management.id as itinerary_management_id'
                 )
-                ->where('coaches.service', '=', 'user')
+                ->where('coaches.service', '=', 'Người')
                 ->get();
-            $ticketsBooked = InvoicePassenger::join('tickets', 'tickets.id', '=', 'invoice_passengers.ticket_id')
+            $ticketsBooked = DB::table('invoice_passengers')
+                ->join('tickets', 'tickets.id', '=', 'invoice_passengers.ticket_id')
                 ->select(
-                    'invoice_passengers.coaches_id',
-                    'invoice_passengers.itinerary_management_id as itinerary_management_id ',
+                    'invoice_passengers.coaches_id as coaches_id',
+                    'invoice_passengers.itinerary_management_id as itinerary_management_id',
                     'tickets.seat_position'
                 )
                 ->get();
 
+            // dd($results);
             return view('usermodule::PassengerTransportationService', ['results' => $results, 'ticketsBooked' => $ticketsBooked]);
         } else {
 
 
             $results = Coach::join('itinerary_management', 'coaches.id', '=', 'itinerary_management.coaches_id')
                 ->join('itineraries', 'itinerary_management.itineraries_id', '=', 'itineraries.id')
-                ->join('price_tickets', 'itineraries.id', '=', 'price_tickets.itineraries_id')
+
                 ->select(
                     'coaches.vehicle_type',
-                    'price_tickets.price',
+                    'itinerary_management.price',
                     'itinerary_management.start_time',
                     'itineraries.starting_poin',
                     'itineraries.destination',
                     'coaches.id',
                     'itinerary_management.id AS itinerary_management_id'
                 )
-                ->where('coaches.service', '=', 'user')
+                ->where('coaches.service', '=', 'Người')
                 ->where('itineraries.starting_poin', '=', $startingPoin)
                 ->where('itineraries.destination', '=', $destination)
                 ->whereDate('itinerary_management.start_time', '=', Carbon::parse($date))
@@ -74,10 +77,12 @@ class PassengerTransportationServiceController extends Controller
             $ticketsBooked = InvoicePassenger::join('tickets', 'tickets.id', '=', 'invoice_passengers.ticket.id')
                 ->select(
                     'invoice_passengers.coches_id',
-                    'invoice_passengers.itinerary_management_id',
+                    'invoice_passengers.itinerary_management_id AS itinerary_management_id',
                     'tickets.seat_position'
                 )
+
                 ->get();
+
             return view('usermodule::PassengerTransportationService', ['results' => $results, 'ticketsBooked' => $ticketsBooked]);
         }
     }

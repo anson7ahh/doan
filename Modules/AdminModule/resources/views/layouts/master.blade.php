@@ -126,7 +126,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href=""
+                    <a href="http://127.0.0.1:8000/admin/quan-ly-lo-trinh"
                         class="flex items-center p-2 text-base font-medium text-primary rounded-lg hover:bg-acent1 group transition duration-75">
                         <i
                             class="fa-solid fa-book text-lg text-acent1 group-hover:text-white transition duration-75"></i>

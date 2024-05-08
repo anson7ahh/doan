@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Validator;
 
 class AdminCoachManagerController extends Controller
 {
@@ -17,14 +18,32 @@ class AdminCoachManagerController extends Controller
     {
         $coaches = Coach::get();
 
-        return view('adminmodule::CoachManager', ['coaches' => $coaches]);
+        return view('adminmodule::AdminCoachManager', ['coaches' => $coaches]);
     }
 
 
 
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'license_plate' => 'required|unique:coaches',
+            'coach_maintenance_date' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator->errors())
+                ->withInput();
+        }
+
+
+        $coach = new Coach();
+        $coach->license_plate = $request->license_plate;
+        $coach->coach_maintenance_date = $request->coach_maintenance_date;
+        $coach->service = $request->service;
+        $coach->vehicle_type = $request->vehicle_type;
+        $coach->sum_ticket = $request->sum_ticket;
+        $coach->save();
+        return back();
     }
 
 

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\AdminModule\App\Http\Controllers\AdminModuleController;
 use Modules\AdminModule\App\Http\Controllers\AdminCoachManagerController;
 use Modules\AdminModule\App\Http\Controllers\AdminTicketManagerController;
+use Modules\AdminModule\App\Http\Controllers\AdminItineraryManagerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,5 +26,9 @@ Route::prefix('/admin/quan-ly-xe')->group(function () {
     Route::get('/', [AdminCoachManagerController::class, 'index'])->name('AdminCoachManager.index');
     Route::post('/', [AdminCoachManagerController::class, 'store'])->name('AdminCoachManager.strore');
     Route::get('/{id}', [AdminCoachManagerController::class, 'destroy'])->name('AdminCoachManager.destroy');
-    Route::put('/{id}', [AdminCoachManagerController::class, 'edit'])->name('AdminCoachManager.edit');
+});
+Route::prefix('/admin/quan-ly-lo-trinh')->group(function () {
+    Route::get('/', [AdminItineraryManagerController::class, 'index'])->name('AdminItineraryManager.index');
+    Route::post('/', [AdminItineraryManagerController::class, 'store'])->name('AdminItineraryManager.strore');
+    Route::get('/{id}', [AdminItineraryManagerController::class, 'destroy'])->name('AdminItineraryManager.destroy');
 });

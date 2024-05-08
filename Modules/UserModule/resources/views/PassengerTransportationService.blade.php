@@ -74,26 +74,28 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{-- <?php dd($ticketsBooked);
+                    ?> --}}
                     @if ($results->isEmpty())
                         <td>Không có kết quả tìm kiếm</td>
                     @else
                         @foreach ($results as $index => $result)
                             <tr class=" bg-gray-300 w-full flex flex-col justify-between my-3 z-10  ">
                             <tr class="flex flex-row justify-between px-10">
-                                <td class="tableItems font-medium text-gray-900 whitespace-nowrap ">
+                                <td class="tableItems font-medium  whitespace-nowrap ">
                                     {{ $result->starting_poin }}
                                 </td>
-                                <td class="tableItems text-gray-900">
+                                <td class="tableItems ">
                                     {{ $result->destination }}
                                 </td>
 
-                                <td class="tableItems text-gray-900">
+                                <td class="tableItems ">
                                     {{ $result->start_time }}
                                 </td>
-                                <td class="tableItems text-gray-900">
+                                <td class="tableItems ">
                                     {{ $result->price }}
                                 </td>
-                                <td class="tableItems text-gray-900">
+                                <td class="tableItems ">
                                     {{ $result->vehicle_type }}
                                 </td>
                                 <td class="tableItems"><button data-target="dropdown_{{ $index }}"
@@ -119,8 +121,33 @@
                                             <ul class="grid grid-cols-3 grid-rows-6 grid-flow-col gap-4 w-1/2">
                                                 @foreach ($rows as $row)
                                                     <li>
-                                                        <p class="tiket" data-value="{{ $col . $row }}">
-                                                            {{ $col . $row }}</p>
+                                                        @php
+                                                            $seat = $col . $row;
+                                                            $isBooked = false;
+
+                                                        @endphp
+
+                                                        @foreach ($ticketsBooked as $ticketBooked)
+                                                            @if (
+                                                                $result->id == $ticketBooked->coaches_id &&
+                                                                    $result->itinerary_management_id == $ticketBooked->itinerary_management_id &&
+                                                                    $ticketBooked->seat_position == $seat)
+                                                                @php
+                                                                    $isBooked = true;
+                                                                    break;
+                                                                @endphp
+                                                            @endif
+                                                        @endforeach
+                                                        @if ($isBooked)
+                                                            <p class="tiketBooked" data-value="{{ $seat }}">
+                                                                {{ $seat }}
+                                                            </p>
+                                                        @else
+                                                            <p class="ticket" data-value="{{ $seat }}">
+                                                                {{ $seat }}
+                                                            </p>
+                                                        @endif
+
                                                     </li>
                                                 @endforeach
                                             </ul>
@@ -142,7 +169,7 @@
                                             @foreach ($cols_vip as $col_vip)
                                                 @foreach ($rows_vip as $row_vip)
                                                     <li>
-                                                        <p class="tiket" data-value="{{ $col_vip . $row_vip }}">
+                                                        <p class="ticket" data-value="{{ $col_vip . $row_vip }}">
                                                             {{ $col_vip . $row_vip }}</p>
                                                     </li>
                                                 @endforeach
@@ -200,7 +227,7 @@
 
         // Xử lý sự kiện khi người dùng click vào phần tử p
 
-        $("p.tiket").click(function() {
+        $("p.ticket").click(function() {
             var paragraphValue = $(this).data('value');
 
             var index = selectedValues.indexOf(paragraphValue);

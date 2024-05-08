@@ -17,7 +17,7 @@ input::-webkit-inner-spin-button {
 .slick-prev{
     @apply  absolute w-[20px] h-full  left-0 bg-white z-20;
 }
-.tiket{
+.ticket{
     @apply bg-blue-300 rounded-lg w-20 text-center cursor-pointer;
 }
 .bg{
@@ -32,6 +32,6 @@ input::-webkit-inner-spin-button {
 .tableItems{
     @apply w-1/6 justify-center text-gray-900;
 }
-tiketsBooked{
+.tiketBooked{
     @apply bg-red-300 rounded-lg w-20 text-center cursor-not-allowed;
 }

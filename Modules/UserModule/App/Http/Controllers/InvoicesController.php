@@ -34,14 +34,13 @@ class InvoicesController extends Controller
                 ->join('coaches', 'coaches.id', '=', 'invoice_passengers.coaches_id')
                 ->join('itinerary_management', 'itinerary_management.id', '=', 'invoice_passengers.itinerary_management_id')
                 ->join('itineraries', 'itineraries.id', '=', 'itinerary_management.itineraries_id')
-                ->join('price_tickets', 'price_tickets.itineraries_id', '=', 'itineraries.id')
                 ->select(
                     'tickets.id',
                     'tickets.seat_position',
                     'users.name',
                     'users.phone_number',
                     'coaches.license_plate',
-                    'price_tickets.price',
+                    'itinerary_management.price',
                     'itineraries.starting_poin',
                     'itineraries.destination',
                     'itinerary_management.start_time',

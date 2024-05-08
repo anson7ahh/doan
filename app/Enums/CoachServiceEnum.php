@@ -13,6 +13,6 @@ use BenSampo\Enum\Enum;
  */
 final class CoachServiceEnum extends Enum
 {
-    const freights = 'freights';
-    const user = 'user';
+    const freights = 'Hàng hóa';
+    const user = 'Người';
 }

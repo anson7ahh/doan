@@ -14,7 +14,7 @@ class AdminTicketManagerController extends Controller
      */
     public function index()
     {
-        return view('adminmodule::TicketManager');
+        return view('adminmodule::AdminTicketManager');
     }
 
     /**
