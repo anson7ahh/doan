@@ -68,6 +68,7 @@
                         <th scope="col" class="tableItems">
                             Loại xe
                         </th>
+
                         <th scope="col" class="tableItems">
 
                         </th>
@@ -98,6 +99,8 @@
                                 <td class="tableItems ">
                                     {{ $result->vehicle_type }}
                                 </td>
+
+
                                 <td class="tableItems"><button data-target="dropdown_{{ $index }}"
                                         class="dropdownCoach
                                          ">
@@ -138,12 +141,17 @@
                                                                 @endphp
                                                             @endif
                                                         @endforeach
-                                                        @if ($isBooked)
-                                                            <p class="tiketBooked" data-value="{{ $seat }}">
+                                                        @if (!$isBooked)
+                                                            <p class="ticket" data-value="{{ $seat }}">
+                                                                {{ $seat }}
+                                                            </p>
+                                                        @elseif($isBooked && $ticketBooked->status == 'chưa thanh toán')
+                                                            <p class="ticketBookeNotpay"
+                                                                data-value="{{ $seat }}">
                                                                 {{ $seat }}
                                                             </p>
                                                         @else
-                                                            <p class="ticket" data-value="{{ $seat }}">
+                                                            <p class="ticketBooked" data-value="{{ $seat }}">
                                                                 {{ $seat }}
                                                             </p>
                                                         @endif
@@ -160,21 +168,52 @@
                                     </div>
 
                                     <div class="flex flex-row">
-                                        <ul
-                                            class="px-20 grid grid-cols-4 grid-rows-7 grid-flow-col gap-4 w-full justify-center">
-                                            @php
-                                                $cols_vip = range('A', 'D');
-                                                $rows_vip = range(1, 7);
-                                            @endphp
-                                            @foreach ($cols_vip as $col_vip)
+
+                                        @php
+                                            $cols_vip = range('A', 'D');
+                                            $rows_vip = range(1, 7);
+                                        @endphp
+                                        @foreach ($cols_vip as $col_vip)
+                                            <ul
+                                                class="px-20 grid grid-cols-4 grid-rows-7 grid-flow-col gap-4 w-full justify-center">
                                                 @foreach ($rows_vip as $row_vip)
                                                     <li>
-                                                        <p class="ticket" data-value="{{ $col_vip . $row_vip }}">
-                                                            {{ $col_vip . $row_vip }}</p>
+                                                        @php
+                                                            $seat_vip = $col_vip . $row_vip;
+                                                            $isBooked = false;
+
+                                                        @endphp
+
+                                                        @foreach ($ticketsBooked as $ticketBooked)
+                                                            @if (
+                                                                $result->id == $ticketBooked->coaches_id &&
+                                                                    $result->itinerary_management_id == $ticketBooked->itinerary_management_id &&
+                                                                    $ticketBooked->seat_position == $seat_vip)
+                                                                @php
+                                                                    $isBooked = true;
+                                                                    break;
+                                                                @endphp
+                                                            @endif
+                                                        @endforeach
+                                                        @if (!$isBooked)
+                                                            <p class="ticket" data-value="{{ $seat_vip }}">
+                                                                {{ $seat_vip }}
+                                                            </p>
+                                                        @elseif($isBooked && $ticketBooked->status == 'notpay')
+                                                            <p class="ticketBookeNotpay"
+                                                                data-value="{{ $seat_vip }}">
+                                                                {{ $seat_vip }}
+                                                            </p>
+                                                        @else
+                                                            <p class="ticketBooked" data-value="{{ $seat_vip }}">
+                                                                {{ $seat_vip }}
+                                                            </p>
+                                                        @endif
+
                                                     </li>
                                                 @endforeach
-                                            @endforeach
-                                        </ul>
+                                            </ul>
+                                        @endforeach
                                     </div>
                                 @endif
 
@@ -185,18 +224,45 @@
                                             data-coach-itinerary_management = '{{ $result->itinerary_management_id }}'>Đặt
                                             vé</button>
                                     </div>
+                                    <div>
+                                        <ul class='flex flex-row justify-end gap-5 px-10 pb-2'>
+                                            <li>
+                                                <p class='ticketBooked'>Đã đặt</p>
+                                            </li>
+                                            <li>
+                                                <p class='ticketBookeNotpay'>Dữ chỗ</p>
+                                            </li>
+                                            <li>
+                                                <p class='ticket'>Còn trống</p>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 @else
-                                    <div
-                                        class="pt-10
-                                            flex justify-center w-5/6 pb-5">
+                                    <div class="pt-10 flex justify-center w-5/6 pb-5">
                                         <button onclick="alert('Bạn chưa đăng nhập')"
                                             class='bg-red-200 w-20 rounded-lg'>Đặt vé</button>
                                     </div>
+                                    <div>
+                                        <ul class='flex flex-row justify-end gap-5 px-10 pb-2'>
+                                            <li>
+                                                <p class='ticketBooked'>Đã đặt</p>
+
+                                            </li>
+                                            <li>
+                                                <p class='ticketBookeNotpay'>Dữ chỗ</p>
+                                            </li>
+                                            <li>
+                                                <p class='ticket'>Còn trống</p>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 @endif
+
                             </td>
 
                             </tr>
                         @endforeach
+
                     @endif
                 </tbody>
             </table>

@@ -22,7 +22,7 @@ class PassengerTransportationServiceController extends Controller
         $startingPoin = $request->input('startingPoin');
         $destination = $request->input('destination');
         $date = $request->input('date');
-
+        $currentDate = Carbon::now()->toDateString();
 
         if (!$startingPoin && !$date && !$destination) {
 
@@ -37,21 +37,32 @@ class PassengerTransportationServiceController extends Controller
                     'itineraries.starting_poin',
                     'itineraries.destination',
                     'coaches.id',
-                    'itinerary_management.id as itinerary_management_id'
+                    'itinerary_management.id as itinerary_management_id',
+                    'coaches.sum_ticket'
                 )
                 ->where('coaches.service', '=', 'Người')
+                ->whereDate('itinerary_management.start_time', '>=', $currentDate)
+                ->orderby('itinerary_management.start_time', 'desc')
                 ->get();
             $ticketsBooked = DB::table('invoice_passengers')
                 ->join('tickets', 'tickets.id', '=', 'invoice_passengers.ticket_id')
                 ->select(
                     'invoice_passengers.coaches_id as coaches_id',
                     'invoice_passengers.itinerary_management_id as itinerary_management_id',
-                    'tickets.seat_position'
+                    'tickets.seat_position',
+                    'tickets.status'
                 )
                 ->get();
+            $totalTickets =
+                DB::table('invoice_passengers')
+                ->join('itinerary_management', 'itinerary_management.id', '=', 'invoice_passengers.itinerary_management_id')
+                ->join('coaches', 'coaches.id', '=', 'itinerary_management.coaches_id')
+                ->select('coaches.sum_ticket', 'coaches.id', 'itinerary_management.id AS itinerary_management_id')
+                ->selectRaw('(coaches.sum_ticket - COUNT(CASE WHEN invoice_passengers.itinerary_management_id = itinerary_management.id THEN invoice_passengers.id END)) AS total_ticket_booked')
+                ->groupBy('coaches.sum_ticket', 'coaches.id', 'itinerary_management.id')
+                ->get();
 
-            // dd($results);
-            return view('usermodule::PassengerTransportationService', ['results' => $results, 'ticketsBooked' => $ticketsBooked]);
+            return view('usermodule::PassengerTransportationService', ['results' => $results, 'ticketsBooked' => $ticketsBooked, 'totalTickets' => $totalTickets]);
         } else {
 
 
@@ -65,12 +76,14 @@ class PassengerTransportationServiceController extends Controller
                     'itineraries.starting_poin',
                     'itineraries.destination',
                     'coaches.id',
-                    'itinerary_management.id AS itinerary_management_id'
+                    'itinerary_management.id AS itinerary_management_id',
+                    'coaches.sum_ticket'
                 )
                 ->where('coaches.service', '=', 'Người')
                 ->where('itineraries.starting_poin', '=', $startingPoin)
                 ->where('itineraries.destination', '=', $destination)
                 ->whereDate('itinerary_management.start_time', '=', Carbon::parse($date))
+                ->whereDate('itinerary_management.start_time', '>=', $currentDate)
                 ->get();
 
 
@@ -78,36 +91,26 @@ class PassengerTransportationServiceController extends Controller
                 ->select(
                     'invoice_passengers.coches_id',
                     'invoice_passengers.itinerary_management_id AS itinerary_management_id',
-                    'tickets.seat_position'
+                    'tickets.seat_position',
+                    'tickets.status'
                 )
-
+                ->get();
+            $totalTickets = DB::table('coaches')
+                ->join('tickets', 'tickets.coaches_id', '=', 'coaches.id')
+                ->join('itinerary_management', 'itinerary_management.coaches_id', '=', 'coaches.id')
+                ->select(
+                    'coaches.sum_ticket',
+                    'coaches.id',
+                    'itinerary_management.id as itinerary_management_id',
+                    DB::raw('coaches.sum_ticket - COUNT(tickets.id) AS total_ticket_booked')
+                )
+                ->groupBy('coaches.sum_ticket', 'coaches.id', 'itinerary_management.id')
                 ->get();
 
-            return view('usermodule::PassengerTransportationService', ['results' => $results, 'ticketsBooked' => $ticketsBooked]);
+            return view('usermodule::PassengerTransportationService', ['results' => $results, 'ticketsBooked' => $ticketsBooked, 'totalTickets' => $totalTickets]);
         }
     }
 
-
-    // public function ShowTicketBooked($id, $itinerary_management_id)
-    // {
-
-
-    //     $ticketsBooked = InvoicePassenger::join('tickets', 'tickets.id', '=', 'invoice_passengers.ticket.id')
-    //         ->select(
-    //             'invoice_passengers.coches_id',
-    //             'invoice_passengers.itinerary_management_id',
-    //             'tickets.seat_position'
-    //         )
-    //         ->where('invoice_passengers.coches_id', '=', $id)
-    //         ->where('invoice_passengers.itinerary_management_id', '=', $itinerary_management_id)
-    //         ->get();
-    //     return response()->json([
-    //         'status' => 200,
-    //         'message' => 'success',
-    //         'data' => $ticketsBooked,
-
-    //     ]);;
-    // }
 
 
     public function CreateBookTicket(Request $request, $id, $itinerary_management_id)
@@ -126,6 +129,7 @@ class PassengerTransportationServiceController extends Controller
                         'userName' => $user->name,
                         'phoneNumber' => $user->phone_number,
                         'user_id' => $user->id,
+                        'itinerary_management_id' => $itinerary_management_id,
                         'created_at' => Carbon::now(),
                         'updated_at' => Carbon::now()
                     ]);

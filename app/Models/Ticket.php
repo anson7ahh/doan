@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\TicketStatusEnum;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Ticket extends Model
 {
@@ -14,6 +15,10 @@ class Ticket extends Model
         'updated_at'
 
     ];
+    protected $casts = [
+        'status' => TicketStatusEnum::class,
+
+    ];
     protected $dates  = [
         'created_at',
         'updated_at',
@@ -22,6 +27,10 @@ class Ticket extends Model
     public function Coach()
     {
         return $this->belongsTo('Coach::class');
+    }
+    public function ItineraryManagement()
+    {
+        return $this->belongsTo('ItineraryManagement::class');
     }
     public function User()
     {

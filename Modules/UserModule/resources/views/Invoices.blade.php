@@ -15,7 +15,28 @@
 <body>
     <x-usermodule::navbar>
     </x-usermodule::navbar>
-    <section class="pt-[120px]">
+
+    <section class="pt-[120px] pl-10">
+        <div class="flex flex-row">
+            <div>
+                <P>Thông tin chuyển khoản</P>
+                <p>Ngân hang : bidv</p>
+                <p>Số tài khoản : 51010002753990</p>
+                <p>Tên chủ tài khoản : Nguyễn An Sơn</p>
+            </div>
+            <div class="px-5">
+
+                <img class=" object-fill h-[90px]  " src="{{ asset('image/qr.jpeg') }}">
+            </div>
+            <div>
+                <p>Chuyển khoản 100% giá trị hóa đơn với nội dung chuyển khoản là số điện thoại đặt vé để thanh toán hóa
+                    đơn</p>
+                <p>Hủy vé trước 1 ngày để nhận lại 100% tiền vé . Nếu hủy vé muộn sẽ không được hoàn tiền</p>
+                <p>Liên hệ hotline : 0963579789 để được tư vấn thêm</p>
+            </div>
+        </div>
+    </section>
+    <section>
         @if (Auth::check())
             <div>
 
@@ -36,7 +57,13 @@
                                 onclick=" return confirm('ban co chac chan muon xoa')"
                                 href=" {{ route('invoices.destroy', ['id' => $result->id]) }}">Hủy vé</a>
                         </div>
-
+                        <div>
+                            @if ($result->status == 'notpay')
+                                <p>Hóa đơn chưa được thanh toán. Bạn vui lòng thanh toán hóa đơn</p>
+                            @else
+                                <p>Hóa đơn đã được thanh toán</p>
+                            @endif
+                        </div>
                     </div>
                 @endforeach
             </div>

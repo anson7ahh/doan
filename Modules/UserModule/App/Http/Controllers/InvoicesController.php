@@ -44,10 +44,12 @@ class InvoicesController extends Controller
                     'itineraries.starting_poin',
                     'itineraries.destination',
                     'itinerary_management.start_time',
-                    'itinerary_management.end_time'
+                    'itinerary_management.end_time',
+                    'tickets.status'
                 )
 
                 ->where('tickets.user_id', '=', $user->id)
+                ->orderby('tickets.created_at', 'desc')
                 ->get();
 
             $datas = InvoiceFreght::select(

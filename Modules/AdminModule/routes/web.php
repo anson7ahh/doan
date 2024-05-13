@@ -32,3 +32,8 @@ Route::prefix('/admin/quan-ly-lo-trinh')->group(function () {
     Route::post('/', [AdminItineraryManagerController::class, 'store'])->name('AdminItineraryManager.strore');
     Route::get('/{id}', [AdminItineraryManagerController::class, 'destroy'])->name('AdminItineraryManager.destroy');
 });
+Route::prefix('/admin/quan-ly-ve-xe')->group(function () {
+    Route::get('/', [AdminTicketManagerController::class, 'index'])->name('Ticket.index');
+    Route::post('/{id}', [AdminTicketManagerController::class, 'update'])->name('Ticket.update');
+    Route::get('/{id}', [AdminTicketManagerController::class, 'destroy'])->name('Ticket.destroy');
+});

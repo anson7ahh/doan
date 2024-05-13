@@ -93,21 +93,14 @@
 
                 </li>
                 <li>
-                    <a href=""
+                    <a href="http://127.0.0.1:8000/admin/quan-ly-ve-xe"
                         class="flex items-center p-2 w-full text-base font-medium text-primary rounded-lg transition duration-75 group hover:bg-acent1">
                         <i
                             class="fa-solid fa-chalkboard-user text-lg text-acent1 transition duration-75 group-hover:text-white"></i>
                         <span class="flex-1 ml-3 text-left whitespace-nowrap">Quản lý vé xe</span>
                     </a>
                 </li>
-                <li>
-                    <a href=""
-                        class="flex items-center p-2 w-full text-base font-medium text-primary rounded-lg transition duration-75 group hover:bg-acent1">
-                        <i
-                            class="fa-solid fa-graduation-cap text-lg text-acent1 transition duration-75 group-hover:text-white"></i>
-                        <span class="flex-1 ml-3 text-left whitespace-nowrap">Quản lý nhân viên</span>
-                    </a>
-                </li>
+
                 <li>
                     <a href="http://127.0.0.1:8000/admin/quan-ly-xe" type="button"
                         class="flex items-center p-2 w-full text-base font-medium text-primary rounded-lg transition duration-75 group hover:bg-acent1">

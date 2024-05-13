@@ -18,8 +18,6 @@ return new class extends Migration
             $table->bigInteger('price')->unsigned();
             $table->unsignedBigInteger('coaches_id');
             $table->unsignedBigInteger('itineraries_id');
-
-
             $table->foreign('coaches_id')->references('id')->on('coaches')->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->foreign('itineraries_id')->references('id')->on('itineraries')->onDelete('cascade')
