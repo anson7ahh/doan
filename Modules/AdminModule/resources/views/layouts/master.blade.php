@@ -85,11 +85,21 @@
 
             <!-- Menu (It's for Lablet and Desktop) -->
             <ul class="hidden lg:inline space-y-0.5">
+
                 <li
                     class="flex justify-between px-2 items-center pt-6 text-base font-medium text-primary rounded-lg hover:bg-acent1 group transition duration-75  ">
 
                     <span class="ml-3">Dashboard</span>
 
+
+                </li>
+                <li>
+                    <a href="http://127.0.0.1:8000/admin"
+                        class="flex items-center p-2 w-full text-base font-medium text-primary rounded-lg transition duration-75 group hover:bg-acent1">
+                        <i
+                            class="fa-solid fa-chalkboard-user text-lg text-acent1 transition duration-75 group-hover:text-white"></i>
+                        <span class="flex-1 ml-3 text-left whitespace-nowrap">Thống kê</span>
+                    </a>
 
                 </li>
                 <li>
@@ -111,7 +121,7 @@
                 </li>
 
                 <li>
-                    <a href=""
+                    <a href="http://127.0.0.1:8000/admin/quan-ly-hang-hoa"
                         class="flex items-center p-2 w-full text-base font-medium text-primary rounded-lg transition duration-75 group hover:bg-acent1">
                         <i
                             class="fa-solid fa-file-pen text-lg text-acent1 transition duration-75 group-hover:text-white"></i>
@@ -127,21 +137,24 @@
                     </a>
                 </li>
 
+
             </ul>
-
-
-
         </aside>
         <!-- End of the Sidebar -->
     </div>
-    <section class="pl-[280px] pt-[150px]"> @yield('content')</section>
+    <section class="pl-[260px] pt-[150px] "> @yield('content')</section>
     <!-- Site Script File -->
 
     <!-- Flowbite Js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
 
-
-
+    <script>
+        $(document).ready(function() {
+            $('#btnStatistical').click(function() {
+                $('#targetBtnStatistical').toggle();
+            });
+        });
+    </script>
 </body>
 
 </html>

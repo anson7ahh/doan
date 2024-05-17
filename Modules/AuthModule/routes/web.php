@@ -5,6 +5,7 @@ use Modules\AuthModule\App\Http\Controllers\User\LoginController;
 use Modules\AuthModule\App\Http\Controllers\User\LogoutController;
 use Modules\AuthModule\App\Http\Controllers\User\RegisterController;
 use Modules\AuthModule\App\Http\Controllers\User\AuthModuleController;
+use Modules\AuthModule\App\Http\Controllers\Admin\LoginAdminController;
 use Modules\AuthModule\App\Http\Controllers\User\ForgotPasswordController;
 
 /*
@@ -33,3 +34,8 @@ Route::prefix('login')->group(function () {
 });
 
 Route::get('/logout', [LogoutController::class, 'destroy'])->name('logout.destroy');
+Route::prefix('admin/login')->group(function () {
+    Route::get('/', [LoginAdminController::class, 'index'])->name('login.index');
+
+    route::post('', [LoginAdminController::class, 'store'])->name('login.strore');
+});

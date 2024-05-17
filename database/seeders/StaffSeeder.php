@@ -15,7 +15,7 @@ class StaffSeeder extends Seeder
     {
         Staff::create([
             'fullname' => 'Nguyễn van a',
-            'phone_number' => '0999999',
+            'phone_number' => '0942022396',
             'birth_date' => '1990-01-01',
             'gender' => 'male',
             'position' => 'accounting'

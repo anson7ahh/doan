@@ -11,8 +11,9 @@ use BenSampo\Enum\Enum;
  * @method static static OptionTwo()
  * @method static static OptionThree()
  */
-final class InvoiceFreghtPayerEnum extends Enum
+final class InvoiceFreghtCurrentPositionEnum extends Enum
 {
-    public const sender = 'sender';
-    public const Receiver = 'Receiver';
+    const warehouse1 = 'Kho_Nghe_an';
+    const warehouse2 = 'Kho_Thanh_hóa';
+    const warehouse3 = 'Kho_Hà_nội';
 }

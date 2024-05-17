@@ -62,7 +62,7 @@
                         <th scope="col" class="tableItems">
                             Thời gian khởi hành
                         </th>
-                        <th scope="col" class="tableItems">
+                        <th scope="col" class="tableItems pr-5">
                             Giá
                         </th>
                         <th scope="col" class="tableItems">
@@ -91,10 +91,11 @@
                                 </td>
 
                                 <td class="tableItems ">
-                                    {{ $result->start_time }}
+                                    {{ \Carbon\Carbon::parse($result->start_time)->format('H:i d/m ') }} -
+                                    {{ \Carbon\Carbon::parse($result->end_time)->format('H:i d/m ') }}
                                 </td>
                                 <td class="tableItems ">
-                                    {{ $result->price }}
+                                    {{ number_format($result->price, 0, ',', '.') }} VND
                                 </td>
                                 <td class="tableItems ">
                                     {{ $result->vehicle_type }}
@@ -102,8 +103,7 @@
 
 
                                 <td class="tableItems"><button data-target="dropdown_{{ $index }}"
-                                        class="dropdownCoach
-                                         ">
+                                        class="dropdownCoach ">
                                         Chi tiết
                                     </button></td>
                             </tr>
@@ -145,7 +145,7 @@
                                                             <p class="ticket" data-value="{{ $seat }}">
                                                                 {{ $seat }}
                                                             </p>
-                                                        @elseif($isBooked && $ticketBooked->status == 'chưa thanh toán')
+                                                        @elseif($isBooked && $ticketBooked->status == 'notpay')
                                                             <p class="ticketBookeNotpay"
                                                                 data-value="{{ $seat }}">
                                                                 {{ $seat }}

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Enums;
 
@@ -11,7 +13,8 @@ use BenSampo\Enum\Enum;
  */
 final class InvoiceFreghtStatusEnum extends Enum
 {
-    public const delivering = 'delivering';
-    public const finished = 'finished';
+    public const notconfirm = 'notconfirm';
+    public const confirm = 'confirm';
     public const returned = 'returned';
+    public const finish = 'finish';
 }

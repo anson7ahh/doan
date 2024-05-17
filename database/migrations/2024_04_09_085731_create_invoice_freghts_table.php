@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Enums\InvoiceFreghtStatusEnum;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+use App\Enums\InvoiceFreghtCurrentPositionEnum;
 
 return new class extends Migration
 {
@@ -15,10 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('recipient_name')->nullable();
             $table->string('recipient_address')->nullable();
-            $table->string('weight');
+            $table->string('weight')->nullable();
             $table->integer('recipient_phone_number')->unsigned();
             $table->integer('price')->unsigned()->nullable(); //giá
-            $table->string('payer'); // người trả tiền
+            $table->string('payer')->nullable();; // người trả tiền
+            $table->string('current_position')->nullable();
+            $table->enum('status', InvoiceFreghtStatusEnum::getValues())->default(InvoiceFreghtStatusEnum::notconfirm);
             $table->string('sender_name');
             $table->integer('sender_phone_number');
             $table->string('sender_address');

@@ -34,6 +34,8 @@ class PassengerTransportationServiceController extends Controller
                     'coaches.vehicle_type',
                     'itinerary_management.price',
                     'itinerary_management.start_time',
+
+                    'itinerary_management.end_time',
                     'itineraries.starting_poin',
                     'itineraries.destination',
                     'coaches.id',
@@ -87,9 +89,9 @@ class PassengerTransportationServiceController extends Controller
                 ->get();
 
 
-            $ticketsBooked = InvoicePassenger::join('tickets', 'tickets.id', '=', 'invoice_passengers.ticket.id')
+            $ticketsBooked = InvoicePassenger::join('tickets', 'tickets.id', '=', 'invoice_passengers.ticket_id')
                 ->select(
-                    'invoice_passengers.coches_id',
+                    'invoice_passengers.coaches_id',
                     'invoice_passengers.itinerary_management_id AS itinerary_management_id',
                     'tickets.seat_position',
                     'tickets.status'

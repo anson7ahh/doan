@@ -1,43 +1,33 @@
 <?php
 
-namespace Modules\AuthModule\App\Http\Controllers\User;
+namespace Modules\AuthModule\App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
 
-
-class LoginController extends Controller
+class LoginAdminController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('authmodule::index');
+        return view('authmodule::AdminLogin');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('authmodule::Login');
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         try {
             $validator = Validator::make($request->all(), [
-                'phone_number' => 'required|regex:/(0)[0-9]{9}/',
+                'phone_number' => 'required',
                 'password' => 'required',
             ]);
             if ($validator->fails()) {
@@ -52,7 +42,7 @@ class LoginController extends Controller
             $userdetail = Auth::user();
             $user = User::find($userdetail->id);
             $token = $user->createToken('accessToken')->plainTextToken;
-            return response()->redirectTo('/')->withCookie(cookie('login', $token, 60 * 24 * 30,  '/', NULL, TRUE, TRUE));
+            return response()->redirectTo('/admin/quan-ly-ve-xe')->withCookie(cookie('loginAdmin', $token, 60 * 24 * 30,  '/', NULL, TRUE, TRUE));
         } catch (\Exception $error) {
             return response()->json([
                 'status_code' => 500,
@@ -65,13 +55,32 @@ class LoginController extends Controller
     /**
      * Show the specified resource.
      */
-
-    public function getUserDetail()
+    public function show($id)
     {
-        if (Auth::guard('api')->check()) {
-            $user = Auth::guard('api')->user();
-            return Response(['data' => $user], 200);
-        }
-        return Response()->json(['data' => ''], 401);
+        return view('authmodule::show');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+        return view('authmodule::edit');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, $id): RedirectResponse
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+        //
     }
 }

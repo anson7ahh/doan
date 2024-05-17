@@ -39,7 +39,7 @@
                 <div class="p-6 grow-0">
                     <input type="password" placeholder="Mật khẩu"
                         class="appearance-none border rounded w-full text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        name ='password' autocomplete="new-password">
+                        name ='password' />
                     @error('password')
                         <span class='text-sm text-red-600'>{{ $message }}</span>
                     @enderror
@@ -57,10 +57,7 @@
                         focus:shadow-outline">Đăng
                         nhập</button>
                 </div>
-                <div class="flex flex-row justify-start gap-[100px] mx-6 pt-10 pb-10 ">
-                    <a href="http://127.0.0.1:8000/login/quên-mật-khẩu" class=" ">Quên mật khẩu</a>
-                    <a href="http://127.0.0.1:8000/register" class=" ">Đăng kí tài khoản mới</a>
-                </div>
+
             </form>
 
         </div>

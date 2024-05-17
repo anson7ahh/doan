@@ -34,7 +34,7 @@ class AdminItineraryManagerController extends Controller
                 'itineraries.destination',
             )->orderby('itinerary_management.created_at', 'asc')
             ->get();
-        $coaches = Coach::select('license_plate')->where('service', '=', 'Người')->get();
+        $coaches = Coach::select('license_plate', 'vehicle_type')->where('service', '=', 'Người')->get();
 
         return view('adminmodule::AdminItineraryManager', ['ItineraryManagements' => $ItineraryManagements, 'coaches' => $coaches]);
     }

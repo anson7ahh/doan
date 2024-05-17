@@ -2,10 +2,12 @@
 
 namespace Modules\AdminModule\App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\Models\InvoiceFreght;
 use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class AdminFreightManagerController extends Controller
 {
@@ -14,47 +16,64 @@ class AdminFreightManagerController extends Controller
      */
     public function index()
     {
-        return view('adminmodule::index');
+        $InvoiceFreights = InvoiceFreght::OrderBy('created_at', 'desc')->get();
+
+        return view('adminmodule::AdminInvoiceFreight', ['InvoiceFreights' => $InvoiceFreights]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('adminmodule::create');
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        //
-    }
+        // Get the authenticated user
+        $user = Auth::user();
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('adminmodule::show');
-    }
+        // Retrieve the input data
+        $sender_name = $request->input('sender_name');
+        $sender_phone_number = $request->input('sender_phone_number');
+        $sender_address = $request->input('sender_address');
+        $recipient_name = $request->input('recipient_name');
+        $recipient_phone_number = $request->input('recipient_phone_number');
+        $recipient_address = $request->input('recipient_address');
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('adminmodule::edit');
-    }
+        // Create a new InvoiceFreght record
+        $invoiceFreght = InvoiceFreght::insert([
+            'sender_address' => $sender_address,
+            'sender_name' => $sender_name,
+            'sender_phone_number' => $sender_phone_number,
+            'recipient_address' => $recipient_address,
+            'recipient_name' => $recipient_name,
+            'recipient_phone_number' => $recipient_phone_number,
+            'user_id' => $user->id,
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id): RedirectResponse
+        // Redirect back with a success message
+        return back()->with('success', 'Invoice created successfully.');
+    }
+    public function update(Request $request, $id)
     {
-        //
+
+        $senderAddress = $request->input('senderAddress');
+        $recipientAddress = $request->input('recipientAddress');
+        $weight = $request->input('weight');
+        $price = $request->input('price');
+
+        $status = $request->input('status');
+        $currentPosition = $request->input('currentPosition');
+        $InvoiceFreght = InvoiceFreght::where('id', $id)->update([
+            'status' => $status,
+            'sender_address' => $senderAddress,
+            'recipient_address' => $recipientAddress,
+            'weight' => $weight,
+            'price' => $price,
+
+            'current_position' => $currentPosition,
+        ]);
+        return response()->json([
+            'status' => 200,
+            'message' => 'success',
+            'InvoiceFreght' => $InvoiceFreght,
+
+        ]);
     }
 
     /**
@@ -62,6 +81,9 @@ class AdminFreightManagerController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        InvoiceFreght::where('id', $id)->delete();
+
+        return back();
     }
 }
