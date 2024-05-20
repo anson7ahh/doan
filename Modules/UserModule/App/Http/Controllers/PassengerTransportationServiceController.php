@@ -55,13 +55,10 @@ class PassengerTransportationServiceController extends Controller
                     'tickets.status'
                 )
                 ->get();
-            $totalTickets =
-                DB::table('invoice_passengers')
-                ->join('itinerary_management', 'itinerary_management.id', '=', 'invoice_passengers.itinerary_management_id')
-                ->join('coaches', 'coaches.id', '=', 'itinerary_management.coaches_id')
-                ->select('coaches.sum_ticket', 'coaches.id', 'itinerary_management.id AS itinerary_management_id')
-                ->selectRaw('(coaches.sum_ticket - COUNT(CASE WHEN invoice_passengers.itinerary_management_id = itinerary_management.id THEN invoice_passengers.id END)) AS total_ticket_booked')
-                ->groupBy('coaches.sum_ticket', 'coaches.id', 'itinerary_management.id')
+            $totalTickets = DB::table('itinerary_management')
+                ->leftJoin('tickets', 'itinerary_management.id', '=', 'tickets.itinerary_management_id')
+                ->select('itinerary_management.id  as itinerary_management_id', DB::raw('COUNT(tickets.id) as totalTickets'))
+                ->groupBy('itinerary_management.id')
                 ->get();
 
             return view('usermodule::PassengerTransportationService', ['results' => $results, 'ticketsBooked' => $ticketsBooked, 'totalTickets' => $totalTickets]);

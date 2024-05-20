@@ -42,6 +42,8 @@
                         {{ \Carbon\Carbon::parse($itineraryManagement->start_time)->format('H:i d/m ') }} -
                         {{ \Carbon\Carbon::parse($itineraryManagement->end_time)->format('H:i d/m ') }}</div>
                     <div class="font-bold text-black text-sm">Giá: {{ $itineraryManagement->price }}</div>
+                    <div class="font-bold text-black text-sm">Đã
+                        đặt:{{ $itineraryManagement->total_tickets }}/{{ $itineraryManagement->sum_ticket }}</div>
                     <button data-target="dropdown_{{ $index }}"
                         class="dropdown bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Thêm vé</button>
                 </div>
@@ -70,7 +72,8 @@
                                     <tr class="hover:bg-gray-100">
                                         <td class="px-6 py-4 whitespace-nowrap">Tên: {{ $ticket->userName }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap" contenteditable
-                                            id="phoneNumber-{{ $ticket->tickets_id }}">{{ $ticket->phoneNumber }}</td>
+                                            id="phoneNumber-{{ $ticket->tickets_id }}">
+                                            {{ str_pad($ticket->phoneNumber, 10, '0', STR_PAD_LEFT) }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">Vị trí: {{ $ticket->seat_position }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <select id="status-{{ $ticket->tickets_id }}"

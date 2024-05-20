@@ -2,9 +2,11 @@
 
 namespace Modules\AuthModule\App\Http\Controllers\Admin;
 
-use App\Models\User;
-use Illuminate\Http\Request;
 
+use App\Models\User;
+
+use App\Models\Staff;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -42,7 +44,7 @@ class LoginAdminController extends Controller
             $userdetail = Auth::user();
             $user = User::find($userdetail->id);
             $token = $user->createToken('accessToken')->plainTextToken;
-            return response()->redirectTo('/admin/quan-ly-ve-xe')->withCookie(cookie('loginAdmin', $token, 60 * 24 * 30,  '/', NULL, TRUE, TRUE));
+            return response()->redirectTo('/admin')->withCookie(cookie('loginAdmin', $token, 60 * 24 * 30,  '/', NULL, TRUE, TRUE));
         } catch (\Exception $error) {
             return response()->json([
                 'status_code' => 500,
@@ -71,16 +73,8 @@ class LoginAdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id): RedirectResponse
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
-    {
-        //
-    }
 }

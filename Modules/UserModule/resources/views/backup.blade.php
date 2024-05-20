@@ -15,7 +15,7 @@
 <body>
     <x-usermodule::navbar>
     </x-usermodule::navbar>
-    <marquee class="pt-[100px] mx-10 text-lg text-center text-blue-700">
+    <marquee class=" pt-[100px] mx-[100px] ">
         Sự an tâm của bạn là niềm vinh dự của chúng tôi - Tân Minh Hà, đối tác đáng tin cậy trên mọi hành trình
     </marquee>
     <section class="w-full  flex flex-row px-10 ">
@@ -68,9 +68,7 @@
                         <th scope="col" class="tableItems">
                             Loại xe
                         </th>
-                        <th scope="col" class="tableItems">
-                            Đã đặt
-                        </th>
+
                         <th scope="col" class="tableItems">
 
                         </th>
@@ -102,13 +100,7 @@
                                 <td class="tableItems ">
                                     {{ $result->vehicle_type }}
                                 </td>
-                                <td class="tableItems ">
-                                    @foreach ($totalTickets as $totalTicket)
-                                        @if ($result->itinerary_management_id == $totalTicket->itinerary_management_id)
-                                            {{ $totalTicket->totalTickets }}/{{ $result->sum_ticket }}
-                                        @endif
-                                    @endforeach
-                                </td>
+
 
                                 <td class="tableItems"><button data-target="dropdown_{{ $index }}"
                                         class="dropdownCoach ">

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use App\Models\InvoicePassenger;
+use Illuminate\Support\Facades\DB;
 use App\Models\ItineraryManagement;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -23,10 +24,47 @@ class AdminTicketManagerController extends Controller
         $startingPoin = $request->input('startingPoin');
         $destination = $request->input('destination');
         $date = $request->input('date');
-
+        $currentDate = Carbon::now()->toDateString();
         if (!$startingPoin && !$destination && !$date) {
-            $itineraryManagements = ItineraryManagement::join('coaches', 'coaches.id', '=', 'itinerary_management.coaches_id')
+            $itineraryManagements = DB::table('itinerary_management')
+                ->join('coaches', 'coaches.id', '=', 'itinerary_management.coaches_id')
                 ->join('itineraries', 'itineraries.id', '=', 'itinerary_management.itineraries_id')
+                ->leftJoin('tickets', 'tickets.itinerary_management_id', '=', 'itinerary_management.id')
+                ->select(
+                    'coaches.id as coach_id',
+                    'coaches.license_plate',
+                    'coaches.vehicle_type',
+                    'coaches.sum_ticket',
+                    'itinerary_management.start_time',
+                    'itinerary_management.end_time',
+                    'itineraries.starting_poin',
+                    'itineraries.destination',
+                    'itinerary_management.id as itinerary_management_id',
+                    'itinerary_management.price',
+                    DB::raw('COUNT(tickets.id) as total_tickets')
+                )->whereDate('itinerary_management.start_time', '>=', $currentDate)
+                ->groupBy(
+                    'coaches.id',
+                    'coaches.license_plate',
+                    'coaches.vehicle_type',
+                    'itinerary_management.start_time',
+                    'itinerary_management.end_time',
+                    'itineraries.starting_poin',
+                    'itineraries.destination',
+                    'itinerary_management.id',
+                    'itinerary_management.price'
+                )
+                ->orderBy('itinerary_management.start_time', 'desc')
+                ->get();
+            $tickets = Ticket::join('itinerary_management', 'itinerary_management.id', '=', 'tickets.itinerary_management_id')
+                ->select('tickets.id as tickets_id', 'tickets.phoneNumber', 'tickets.seat_position', 'tickets.status', 'tickets.userName', 'itinerary_management.id')
+                ->get();
+            return view('adminmodule::AdminTicketManager', ['itineraryManagements' => $itineraryManagements, 'tickets' => $tickets]);
+        } else {
+            $itineraryManagements = DB::table('itinerary_management')
+                ->join('coaches', 'coaches.id', '=', 'itinerary_management.coaches_id')
+                ->join('itineraries', 'itineraries.id', '=', 'itinerary_management.itineraries_id')
+                ->leftJoin('tickets', 'tickets.itinerary_management_id', '=', 'itinerary_management.id')
                 ->select(
                     'coaches.id as coach_id',
                     'coaches.license_plate',
@@ -36,28 +74,25 @@ class AdminTicketManagerController extends Controller
                     'itineraries.starting_poin',
                     'itineraries.destination',
                     'itinerary_management.id as itinerary_management_id',
-                    'itinerary_management.price'
-                )->orderby('itinerary_management.start_time', 'desc')
-                ->get();
-            $tickets = Ticket::join('itinerary_management', 'itinerary_management.id', '=', 'tickets.itinerary_management_id')
-                ->select('tickets.id as tickets_id', 'tickets.phoneNumber', 'tickets.seat_position', 'tickets.status', 'tickets.userName', 'itinerary_management.id')
-                ->get();
-            return view('adminmodule::AdminTicketManager', ['itineraryManagements' => $itineraryManagements, 'tickets' => $tickets]);
-        } else {
-            $itineraryManagements = ItineraryManagement::join('coaches', 'coaches.id', '=', 'itinerary_management.coaches_id')
-                ->join('itineraries', 'itineraries.id', '=', 'itinerary_management.itineraries_id')
-                ->select(
+                    'itinerary_management.price',
+                    DB::raw('COUNT(tickets.id) as total_tickets')
+                )
+                ->whereDate('itinerary_management.start_time', '>=', $currentDate)
+                ->where('itineraries.starting_poin', '=', $startingPoin)
+                ->where('itineraries.destination', '=', $destination)
+                ->whereDate('itinerary_management.start_time', '=', Carbon::parse($date))
+                ->groupBy(
+                    'coaches.id',
                     'coaches.license_plate',
+                    'coaches.vehicle_type',
                     'itinerary_management.start_time',
                     'itinerary_management.end_time',
                     'itineraries.starting_poin',
                     'itineraries.destination',
-                    'itinerary_management.id as itinerary_management_id'
-                )->where('coaches.service', '=', 'Người')
-                ->where('itineraries.starting_poin', '=', $startingPoin)
-                ->where('itineraries.destination', '=', $destination)
-                ->whereDate('itinerary_management.start_time', '=', Carbon::parse($date))
-                ->orderby('itinerary_management.start_time', 'desc')
+                    'itinerary_management.id',
+                    'itinerary_management.price'
+                )
+                ->orderBy('itinerary_management.start_time', 'desc')
                 ->get();
             $tickets = Ticket::join('itinerary_management', 'itinerary_management.id', '=', 'tickets.itinerary_management_id')
                 ->select(
@@ -66,10 +101,11 @@ class AdminTicketManagerController extends Controller
                     'tickets.seat_position',
                     'tickets.status',
                     'tickets.userName',
-                    'itinerary_management.id '
+                    'tickets.itinerary_management_id'
                 )
                 ->orderby('tickets.created_at', 'desc')
                 ->get();
+
             return view('adminmodule::AdminTicketManager', ['itineraryManagements' => $itineraryManagements, 'tickets' => $tickets]);
         }
     }
